@@ -33,10 +33,8 @@ La variable Q2.5 est anormale. Il ne peut y avoir dans la même colonne du texte
 
 ```{r, echo=FALSE, comment=""}
 note <- d1[,c(4:7,9)]
-a <- as.data.frame(note)
-x <- apply(a, 2, function(x){sum(x, na.rm = TRUE)})
+x <- apply(note, 2, function(x){sum(x, na.rm = TRUE)}) # on fait la somme des colonnes
 names(x) <- names(note)
-par(mar = c(4,6,3,2))
 barplot(sort(x, decreasing = TRUE), horiz = FALSE, las = 2, cex.names = 0.8, main = "Compléments de la prise de notes", ylab = "Fréquence")
 ```
 
