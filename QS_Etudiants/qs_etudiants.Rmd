@@ -1,0 +1,50 @@
+---
+title: "Questionnaire étudiant"
+author: "Sebri, JcB"
+date: "19/02/2015"
+output:
+  html_document:
+    keep_md: yes
+    toc: yes
+---
+
+Questionnaire étudiant
+======================
+
+```{r init, echo=FALSE}
+path <- "../"
+file1 <- "data/M2 enquête - ESI.csv"
+d1 <- read.csv(paste0(path, file1), skip = 1)
+names(d1)
+
+```
+
+Q1- Pour ce cours, vous avez pris des notes
+--------------------------------------------
+
+```{r notes, echo=FALSE, comment=""}
+summary(d1$Q1)
+barplot(summary(d1$Q1), main = "Support de notes utilisé par l'étudiant")
+```
+
+Q2- Pendant ce cours, vous avez complété la prise de notes par (plusieurs réponses possibles)
+---------------------------------------------------------------------------------------------
+La variable Q2.5 est anormale. Il ne peut y avoir dans la même colonne du texte et des nombres. La colonne ne peut contenir que 1 ou NA. Créer une colnne supplémentaire pour le texte. Par ex. Q2-7.
+
+```{r, echo=FALSE, comment=""}
+note <- d1[,c(4:7,9)]
+a <- as.data.frame(note)
+x <- apply(a, 2, function(x){sum(x, na.rm = TRUE)})
+names(x) <- names(note)
+par(mar = c(4,6,3,2))
+barplot(sort(x, decreasing = TRUE), horiz = FALSE, las = 2, cex.names = 0.8, main = "Compléments de la prise de notes", ylab = "Fréquence")
+```
+
+Information de session
+======================
+
+```{r session, echo=FALSE}
+sessionInfo()
+
+```
+
