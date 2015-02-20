@@ -17,6 +17,9 @@ file1 <- "data/M2 enquête - ESI.csv"
 d1 <- read.csv(paste0(path, file1), skip = 1)
 names(d1)
 
+library("epicalc")
+
+
 ```
 
 Q1- Pour ce cours, vous avez pris des notes
@@ -36,6 +39,18 @@ note <- d1[,c(4:7,9)]
 x <- apply(note, 2, function(x){sum(x, na.rm = TRUE)}) # on fait la somme des colonnes
 names(x) <- names(note)
 barplot(sort(x, decreasing = TRUE), horiz = FALSE, las = 2, cex.names = 0.8, main = "Compléments de la prise de notes", ylab = "Fréquence")
+```
+
+Q3- Quels sont les outils numériques que vous aviez avec vous pendant ce cours? (plusieurs réponses possibles)
+------------------------------------
+Colonne 10 à 13
+
+#### téléphone portable classique
+colonnes 10: ():non, oui sur la table= ot,	oui dans mon sac ou ma poche= osp
+
+```{r outils, echo=FALSE, comment=""}
+tab1(d1$Q3.1tpc, main = "Téléphhone portable classique, ylab = Fréquence")
+
 ```
 
 Information de session

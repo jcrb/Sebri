@@ -17,6 +17,14 @@ Questionnaire étudiant
 ## [50] "Q10"     "Q11"
 ```
 
+```
+## Loading required package: foreign
+## Loading required package: survival
+## Loading required package: splines
+## Loading required package: MASS
+## Loading required package: nnet
+```
+
 Q1- Pour ce cours, vous avez pris des notes
 --------------------------------------------
 
@@ -34,27 +42,46 @@ La variable Q2.5 est anormale. Il ne peut y avoir dans la même colonne du texte
 
 ![](qs_etudiants_files/figure-html/unnamed-chunk-1-1.png) 
 
+Q3- Quels sont les outils numériques que vous aviez avec vous pendant ce cours? (plusieurs réponses possibles)
+------------------------------------
+Colonne 10 à 13
+
+#### téléphone portable classique
+colonnes 10: ():non, oui sur la table= ot,	oui dans mon sac ou ma poche= osp
+
+![](qs_etudiants_files/figure-html/outils-1.png) 
+
+```
+d1$Q3.1tpc : 
+        Frequency Percent Cum. percent
+non            35    60.3         60.3
+NR             15    25.9         86.2
+osp             5     8.6         94.8
+ot              3     5.2        100.0
+  Total        58   100.0        100.0
+```
+
 Information de session
 ======================
 
 
 ```
 ## R version 3.1.2 (2014-10-31)
-## Platform: x86_64-pc-linux-gnu (64-bit)
+## Platform: x86_64-apple-darwin10.8.0 (64-bit)
 ## 
 ## locale:
-##  [1] LC_CTYPE=fr_FR.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=fr_FR.UTF-8        LC_COLLATE=fr_FR.UTF-8    
-##  [5] LC_MONETARY=fr_FR.UTF-8    LC_MESSAGES=fr_FR.UTF-8   
-##  [7] LC_PAPER=fr_FR.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=fr_FR.UTF-8 LC_IDENTIFICATION=C       
+## [1] fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8
 ## 
 ## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## [1] splines   stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+## [1] epicalc_2.15.1.0 nnet_7.3-9       MASS_7.3-37      survival_2.37-7 
+## [5] foreign_0.8-62  
 ## 
 ## loaded via a namespace (and not attached):
-## [1] digest_0.6.4    evaluate_0.5.5  formatR_1.0     htmltools_0.2.6
+## [1] digest_0.6.8    evaluate_0.5.5  formatR_1.0     htmltools_0.2.6
 ## [5] knitr_1.9       rmarkdown_0.5.1 stringr_0.6.2   tools_3.1.2    
 ## [9] yaml_2.1.13
 ```
