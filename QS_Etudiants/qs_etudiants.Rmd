@@ -14,20 +14,50 @@ Questionnaire étudiant
 ```{r init, echo=FALSE}
 path <- "../"
 file1 <- "data/M2 enquête - ESI.csv"
-d1 <- read.csv(paste0(path, file1), skip = 1)
+d1 <- read.csv(paste0(path, file1), skip = 1, stringsAsFactors = FALSE)
 names(d1)
 
 library("epicalc")
+```
+Le fichier comporte:
 
+- `r nrow(d1)` lignes
+- `r ncol(d1)` variables
+
+Etablissements participant:
+---------------------------
+```{r}
+s <- summary(as.factor(d1$Etab))
+s
+pie(s)
+```
+
+Age
+---
+```{r age}
+summary(d1$Q11)
+hist(d1$Q11, main = "Histogramme de l'age", xlab = "Age", ylab = "Fréquence")
+```
+
+Sexe
+----
+    
+```{r sexe}
+summary(as.factor(d1$Q10))
 
 ```
+
+```
+
+
 
 Q1- Pour ce cours, vous avez pris des notes
 --------------------------------------------
 
 ```{r notes, echo=FALSE, comment=""}
-summary(d1$Q1)
-barplot(summary(d1$Q1), main = "Support de notes utilisé par l'étudiant")
+s <- summary(as.factor(d1$Q1))
+s
+barplot(s, main = "Support de notes utilisé par l'étudiant")
 ```
 
 Q2- Pendant ce cours, vous avez complété la prise de notes par (plusieurs réponses possibles)
@@ -43,7 +73,7 @@ barplot(sort(x, decreasing = TRUE), horiz = FALSE, las = 2, cex.names = 0.8, mai
 
 Q3- Quels sont les outils numériques que vous aviez avec vous pendant ce cours? (plusieurs réponses possibles)
 ------------------------------------
-Colonne 10 à 13
+Colonne 11 à 14
 
 #### téléphone portable classique
 colonnes 10: ():non, oui sur la table= ot,	oui dans mon sac ou ma poche= osp
@@ -52,6 +82,32 @@ colonnes 10: ():non, oui sur la table= ot,	oui dans mon sac ou ma poche= osp
 tab1(d1$Q3.1tpc, main = "Téléphhone portable classique, ylab = Fréquence")
 
 ```
+
+Q4- Pendant ce cours (en dehors des temps de pause éventuels), vous avez utilisé votre téléphone pour (plusieurs réponses possibles):
+----------------------------------------------
+question 15 à 30
+```{r Q4, warning=FALSE}
+d1 <- read.csv(paste0(path, file1), skip = 1, stringsAsFactors = FALSE)
+
+q4 <- d1[, c(15:26, 28:30)]
+q4 <- as.data.frame(sapply(q4,gsub,pattern="NR",replacement="NA"), , stringsAsFactors = FALSE)
+q4 <- as.data.frame(sapply(q4, as.integer))
+a <- apply(q4,2,sum, na.rm = TRUE)
+x <- barplot(sort(a, decreasing = TRUE), las = 2, main = "Utilisation du téléphone pendant le cours")
+v <- paste0(sort(round(a*100/sum(a), 2), decreasing = TRUE), "%")
+text(x, 50, v, srt=90)
+```
+
+Combien d'actions simultannément:
+```{r}
+a <- apply(q4,1,sum, na.rm = TRUE)
+summary(a)
+summary(as.factor(a))
+barplot(summary(as.factor(a)), main = "nombre d'action pendant le cours", ylab = "nombre d'éudiants", xlab = "nombre d'actions")
+ 
+```
+
+
 
 Information de session
 ======================
