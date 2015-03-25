@@ -3,8 +3,12 @@ title: "Questionnaire étudiant"
 author: "Sebri, JcB"
 date: "19/02/2015"
 output:
+  pdf_document:
+    toc: yes
   html_document:
+    fig_caption: yes
     keep_md: yes
+    number_sections: yes
     toc: yes
 ---
 
@@ -12,8 +16,13 @@ Questionnaire étudiant
 ======================
 
 ```{r init, echo=FALSE}
+# library(knitr)
+# set global chunk options
+# , cache=TRUE, warning=FALSE, tidy=FALSE
+# opts_chunk$set(echo = FALSE, fig.width=8, fig.height=6)
+
 path <- "../"
-file1 <- "data/M2 enquête - ESI.csv"
+file1 <- "data/M2 enquete - ESI.csv"
 d1 <- read.csv(paste0(path, file1), skip = 1, stringsAsFactors = FALSE)
 names(d1)
 
@@ -26,7 +35,7 @@ Le fichier comporte:
 
 Etablissements participant:
 ---------------------------
-```{r}
+```{r participants, echo=FALSE, comment=""}
 s <- summary(as.factor(d1$Etab))
 s
 pie(s)
@@ -34,7 +43,7 @@ pie(s)
 
 Age
 ---
-```{r age}
+```{r age, echo=FALSE, comment=""}
 summary(d1$Q11)
 hist(d1$Q11, main = "Histogramme de l'age", xlab = "Age", ylab = "Fréquence")
 ```
@@ -42,19 +51,17 @@ hist(d1$Q11, main = "Histogramme de l'age", xlab = "Age", ylab = "Fréquence")
 Sexe
 ----
     
-```{r sexe}
+```{r sexe, echo=FALSE, comment=""}
 summary(as.factor(d1$Q10))
-
+pie(summary(as.factor(d1$Q10)), main = "Sexe")
 ```
 
 ```
-
-
 
 Q1- Pour ce cours, vous avez pris des notes
 --------------------------------------------
 
-```{r notes, echo=FALSE, comment=""}
+```{r}
 s <- summary(as.factor(d1$Q1))
 s
 barplot(s, main = "Support de notes utilisé par l'étudiant")
@@ -73,7 +80,7 @@ barplot(sort(x, decreasing = TRUE), horiz = FALSE, las = 2, cex.names = 0.8, mai
 
 Q3- Quels sont les outils numériques que vous aviez avec vous pendant ce cours? (plusieurs réponses possibles)
 ------------------------------------
-Colonne 11 à 14
+Colonnes 11 à 14
 
 #### téléphone portable classique
 colonnes 10: ():non, oui sur la table= ot,	oui dans mon sac ou ma poche= osp
@@ -86,7 +93,8 @@ tab1(d1$Q3.1tpc, main = "Téléphhone portable classique, ylab = Fréquence")
 Q4- Pendant ce cours (en dehors des temps de pause éventuels), vous avez utilisé votre téléphone pour (plusieurs réponses possibles):
 ----------------------------------------------
 question 15 à 30
-```{r Q4, warning=FALSE}
+
+```{r Q4, warning=FALSE, comment=""}
 d1 <- read.csv(paste0(path, file1), skip = 1, stringsAsFactors = FALSE)
 
 q4 <- d1[, c(15:26, 28:30)]
@@ -99,7 +107,8 @@ text(x, 50, v, srt=90)
 ```
 
 Combien d'actions simultannément:
-```{r}
+
+```{r actions_sim, echo=FALSE, comment=""}
 a <- apply(q4,1,sum, na.rm = TRUE)
 summary(a)
 summary(as.factor(a))
@@ -107,13 +116,82 @@ barplot(summary(as.factor(a)), main = "nombre d'action pendant le cours", ylab =
  
 ```
 
+Q5- A quelle fréquence, avez-vous utilisé votre téléphone PENDANT ce cours (en dehors des temps de pause éventuels) pour prendre des notes ou chercher sur internet des informations au sujet du cours ?
+-----------------------------------------
+question 31
+
+```{r utilisation, echo=FALSE, comment=""}
+summary(as.factor(d1$Q5))
+tab1(as.factor(d1$Q5), main = "Fréquence d'utilisation du téléphone pendant le cours", ylab = "fréquence", sort.group = "decreasing")
+
+```
+
+
+Q6- A quelle fréquence, avez-vous utilisé votre téléphone PENDANT ce cours (en dehors des temps de pause éventuels) pour faire autre chose que prendre des notes ou chercher sur internet des informations au sujet du cours?
+----------------------------------------
+question 32
+
+```{r utilisation2, echo=FALSE, comment=""}
+summary(as.factor(d1$Q6))
+tab1(as.factor(d1$Q6), main = "Fréquence d'utilisation du téléphone pendant le cours\n pour faire autre chose", ylab = "fréquence", sort.group = "decreasing")
+
+```
+
+Q7- Pendant ce cours (en dehors des temps de pause éventuels), vous avez utilisé votre tablette et/ ou votre ordinateur pour (plusieurs réponses possibles):
+----------------------------------------
+Questions 33 à 48
+
+```{r q7, echo=FALSE, comment=""}
+q7 <- d1[, 33:48]
+n7 <- nrow(q7) # nombre de lignes
+q7.2 <- q7[q7[,1] != "NR",] # on ne garde que les lignes sans NR
+n7.2 <- nrow(q7.2)
+nb.NR <- n7 - n7.2 # nb de non réponses
+# analyse de la question 7.13
+print("Analyse de la colonne Q7.13 (réponse libre)")
+q7.13 <- q7$Q7.13
+summary(as.factor(q7.13))
+# on enlève la colonne 13
+q7.2 <- q7.2[, -13]
+# transforme en integer
+q7.2 <- sapply(q7.2, function(x){ifelse(x != "1", NA, 1)})
+
+a <- apply(q7.2, 2, sum, na.rm = TRUE)
+x <- barplot(sort(a, decreasing = TRUE), las = 2, main = "Utilisation de la tablette pendant le cours pour:")
+v <- paste0(sort(round(a*100/sum(a), 2), decreasing = TRUE), "%")
+text(x, 50, v, srt=90) # srt verticalise le texte
+```
+
+
+
+Q8- A quelle fréquence, avez-vous utilisé votre tablette, et/ ou votre ordinateur PENDANT ce cours (en dehors des temps de pause éventuels) pour prendre des notes ou chercher sur internet des informations au sujet du cours ?
+---------------------------------------
+question 49
+```{r utilisatin3, echo=FALSE, comment=""}
+tab1(as.factor(d1$Q8), main = "Fréquence d'utilisation du téléphone pendant le cours\n pour prendre des notes", ylab = "fréquence", sort.group = "decreasing")
+
+```
+
+
+Q9- A quelle fréquence, avez-vous utilisé votre tablette, et/ ou votre ordinateur PENDANT ce cours (en dehors des temps de pause éventuels) pour faire autre chose que prendre des notes ou chercher sur internet des informations au sujet du cours ?
+---------------------------------------
+question 50
+
+```{r utilisation4, echo=FALSE, comment=""}
+tab1(as.factor(d1$Q9), main = "Fréquence d'utilisation du téléphone pendant le cours\n pour faire autre chose", ylab = "fréquence", sort.group = "decreasing")
+
+```
 
 
 Information de session
 ======================
 
-```{r session, echo=FALSE}
+Informations pour le chapitre matériel et méthode.
+
+```{r session, echo=FALSE, comment=""}
 sessionInfo()
 
 ```
+
+
 

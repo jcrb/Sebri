@@ -31,36 +31,19 @@ Le fichier comporte:
 Etablissements participant:
 ---------------------------
 
-```r
-s <- summary(as.factor(d1$Etab))
-s
+```
+  C1   H1 HUS1 HUS2   M1  Sa1  SV1 
+ 120   56  162   60  146   42   79 
 ```
 
-```
-##   C1   H1 HUS1 HUS2   M1  Sa1  SV1 
-##  120   56  162   60  146   42   79
-```
-
-```r
-pie(s)
-```
-
-![](qs_etudiants_files/figure-html/unnamed-chunk-1-1.png) 
+![](qs_etudiants_files/figure-html/participants-1.png) 
 
 Age
 ---
 
-```r
-summary(d1$Q11)
 ```
-
-```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##   17.00   20.00   21.00   23.48   25.00   48.00      11
-```
-
-```r
-hist(d1$Q11, main = "Histogramme de l'age", xlab = "Age", ylab = "Fréquence")
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+  17.00   20.00   21.00   23.48   25.00   48.00      11 
 ```
 
 ![](qs_etudiants_files/figure-html/age-1.png) 
@@ -69,29 +52,34 @@ Sexe
 ----
     
 
-```r
-summary(as.factor(d1$Q10))
+```
+   F    H   NR NA's 
+ 549  108    3    5 
 ```
 
-```
-##    F    H   NR NA's 
-##  549  108    3    5
-```
+![](qs_etudiants_files/figure-html/sexe-1.png) 
 
 ```
-
-
 
 Q1- Pour ce cours, vous avez pris des notes
 --------------------------------------------
 
 
-```
-  ordi papier    pas      X 
-   154    365     97     49 
+```r
+s <- summary(as.factor(d1$Q1))
+s
 ```
 
-![](qs_etudiants_files/figure-html/notes-1.png) 
+```
+##   ordi papier    pas      X 
+##    154    365     97     49
+```
+
+```r
+barplot(s, main = "Support de notes utilisé par l'étudiant")
+```
+
+![](qs_etudiants_files/figure-html/unnamed-chunk-1-1.png) 
 
 Q2- Pendant ce cours, vous avez complété la prise de notes par (plusieurs réponses possibles)
 ---------------------------------------------------------------------------------------------
@@ -101,7 +89,7 @@ La variable Q2.5 est anormale. Il ne peut y avoir dans la même colonne du texte
 
 Q3- Quels sont les outils numériques que vous aviez avec vous pendant ce cours? (plusieurs réponses possibles)
 ------------------------------------
-Colonne 11 à 14
+Colonnes 11 à 14
 
 #### téléphone portable classique
 colonnes 10: ():non, oui sur la table= ot,	oui dans mon sac ou ma poche= osp
@@ -122,6 +110,7 @@ Q4- Pendant ce cours (en dehors des temps de pause éventuels), vous avez utilis
 ----------------------------------------------
 question 15 à 30
 
+
 ```r
 d1 <- read.csv(paste0(path, file1), skip = 1, stringsAsFactors = FALSE)
 
@@ -138,54 +127,164 @@ text(x, 50, v, srt=90)
 
 Combien d'actions simultannément:
 
-```r
-a <- apply(q4,1,sum, na.rm = TRUE)
-summary(a)
+
+```
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.000   1.000   2.000   2.039   3.000  12.000 
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##   0.000   1.000   2.000   2.039   3.000  12.000
+  0   1   2   3   4   5   6   7  11  12 
+ 17 315 152  79  50  32   9   9   1   1 
 ```
 
-```r
-summary(as.factor(a))
+![](qs_etudiants_files/figure-html/actions_sim-1.png) 
+
+Q5- A quelle fréquence, avez-vous utilisé votre téléphone PENDANT ce cours (en dehors des temps de pause éventuels) pour prendre des notes ou chercher sur internet des informations au sujet du cours ?
+-----------------------------------------
+question 31
+
+
+```
+  1X jnsp   js   NR  nvp  qqf   sv   tt NA's 
+  58    4  357   43    7  126   24    4   42 
+```
+
+![](qs_etudiants_files/figure-html/utilisation-1.png) 
+
+```
+as.factor(d1$Q5) : 
+        Frequency   %(NA+)   %(NA-)
+js            357     53.7     57.3
+qqf           126     18.9     20.2
+1X             58      8.7      9.3
+NR             43      6.5      6.9
+NA's           42      6.3      0.0
+sv             24      3.6      3.9
+nvp             7      1.1      1.1
+jnsp            4      0.6      0.6
+tt              4      0.6      0.6
+  Total       665    100.0    100.0
+```
+
+
+Q6- A quelle fréquence, avez-vous utilisé votre téléphone PENDANT ce cours (en dehors des temps de pause éventuels) pour faire autre chose que prendre des notes ou chercher sur internet des informations au sujet du cours?
+----------------------------------------
+question 32
+
+
+```
+  1X jnsp   js   NR  nvp  qqf   sv   tt NA's 
+  86    3  153   43   11  221   91   15   42 
+```
+
+![](qs_etudiants_files/figure-html/utilisation2-1.png) 
+
+```
+as.factor(d1$Q6) : 
+        Frequency   %(NA+)   %(NA-)
+qqf           221     33.2     35.5
+js            153     23.0     24.6
+sv             91     13.7     14.6
+1X             86     12.9     13.8
+NR             43      6.5      6.9
+NA's           42      6.3      0.0
+tt             15      2.3      2.4
+nvp            11      1.7      1.8
+jnsp            3      0.5      0.5
+  Total       665    100.0    100.0
+```
+
+Q7- Pendant ce cours (en dehors des temps de pause éventuels), vous avez utilisé votre tablette et/ ou votre ordinateur pour (plusieurs réponses possibles):
+----------------------------------------
+Questions 33 à 48
+
+
+```
+[1] "Analyse de la colonne Q7.13 (réponse libre)"
 ```
 
 ```
-##   0   1   2   3   4   5   6   7  11  12 
-##  17 315 152  79  50  32   9   9   1   1
+                            1       frfiches        Lemotiv           lire 
+           625              1              1              1              1 
+    notercours             NR            ppt         prepCV     reg-photos 
+            17             11              1              1              1 
+regautre cours       regcours         regppt           shop 
+             1              1              1              2 
 ```
 
-```r
-barplot(summary(as.factor(a)), main = "nombre d'action pendant le cours", ylab = "nombre d'éudiants", xlab = "nombre d'actions")
+![](qs_etudiants_files/figure-html/q7-1.png) 
+
+
+
+Q8- A quelle fréquence, avez-vous utilisé votre tablette, et/ ou votre ordinateur PENDANT ce cours (en dehors des temps de pause éventuels) pour prendre des notes ou chercher sur internet des informations au sujet du cours ?
+---------------------------------------
+question 49
+![](qs_etudiants_files/figure-html/utilisatin3-1.png) 
+
+```
+as.factor(d1$Q8) : 
+        Frequency   %(NA+)   %(NA-)
+NA's          302     45.4      0.0
+js            125     18.8     34.4
+tt            125     18.8     34.4
+sv             35      5.3      9.6
+NR             29      4.4      8.0
+qqf            27      4.1      7.4
+1X             12      1.8      3.3
+nvp             9      1.4      2.5
+jnsp            1      0.2      0.3
+  Total       665    100.0    100.0
 ```
 
-![](qs_etudiants_files/figure-html/unnamed-chunk-3-1.png) 
 
+Q9- A quelle fréquence, avez-vous utilisé votre tablette, et/ ou votre ordinateur PENDANT ce cours (en dehors des temps de pause éventuels) pour faire autre chose que prendre des notes ou chercher sur internet des informations au sujet du cours ?
+---------------------------------------
+question 50
+
+![](qs_etudiants_files/figure-html/utilisation4-1.png) 
+
+```
+as.factor(d1$Q9) : 
+        Frequency   %(NA+)   %(NA-)
+NA's          302     45.4      0.0
+js            203     30.5     55.9
+qqf            49      7.4     13.5
+1X             32      4.8      8.8
+NR             32      4.8      8.8
+sv             21      3.2      5.8
+tt             14      2.1      3.9
+nvp            10      1.5      2.8
+jnsp            2      0.3      0.6
+  Total       665    100.0    100.0
+```
 
 
 Information de session
 ======================
 
+Informations pour le chapitre matériel et méthode.
+
 
 ```
-## R version 3.1.2 (2014-10-31)
-## Platform: x86_64-apple-darwin10.8.0 (64-bit)
-## 
-## locale:
-## [1] fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-## [1] epicalc_2.15.1.0 nnet_7.3-9       MASS_7.3-39      survival_2.38-1 
-## [5] foreign_0.8-63  
-## 
-## loaded via a namespace (and not attached):
-##  [1] digest_0.6.8    evaluate_0.5.5  formatR_1.0     htmltools_0.2.6
-##  [5] knitr_1.9       rmarkdown_0.5.1 splines_3.1.2   stringr_0.6.2  
-##  [9] tools_3.1.2     yaml_2.1.13
+R version 3.1.2 (2014-10-31)
+Platform: x86_64-apple-darwin10.8.0 (64-bit)
+
+locale:
+[1] fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] epicalc_2.15.1.0 nnet_7.3-9       MASS_7.3-39      survival_2.38-1 
+[5] foreign_0.8-63  
+
+loaded via a namespace (and not attached):
+ [1] digest_0.6.8    evaluate_0.5.5  formatR_1.0     htmltools_0.2.6
+ [5] knitr_1.9       rmarkdown_0.5.1 splines_3.1.2   stringr_0.6.2  
+ [9] tools_3.1.2     yaml_2.1.13    
 ```
+
+
 
