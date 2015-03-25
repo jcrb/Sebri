@@ -69,7 +69,7 @@ Pour répondre à la question, on pratique un test statistique pour lequel on d�
 C'est à dire que j'admet H0 (pas de différence) en prenant le risque conssenti de me tromper dans 5% des cas.
 En pratique les logiciels calculent la probabilité exacte d'observer par hasard une telle différence entre les deux groupes. Si cette probabilité est supérieure à 0.05 (cad comprise entre 0.05 et 1) on considère que la différence entre les moyennes est un artefact lié au fluctuation d'échantillonnage et qu'en réalité il n'y a pas de différence entre les groupes. Si au contraire, la probabilité exacte est inférieure à 0.05, on admet qu'elle n'est pas due au hasard et on est obligé d'admettre qu'il y a bien une différence entre les deux groupes. On voit par là le côté arbitraire du petit p, mais il est considéré dans toutes les publications comme un chiffre magique...
 
-Il existe de nombreux tests stratistiques. Pour répondre à la question posée, on utilise le test t de Student qui s'applique si:
+Il existe de nombreux tests statistiques. Pour répondre à la question posée, on utilise le test t de Student qui s'applique si:
 
 - on ne compare que 2 groupes (c'est le cas)
 - la variable d'intérêt (ici l'age) suit une loi normale (on va admettre que oui) dans les 2 groupes
