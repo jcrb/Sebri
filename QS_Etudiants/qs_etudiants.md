@@ -2,6 +2,7 @@
 Sebri, JcB  
 19/02/2015  
 
+
 Questionnaire étudiant
 ======================
 
@@ -25,29 +26,28 @@ Questionnaire étudiant
 ```
 Le fichier comporte:
 
-- 665 lignes
+- 1446 lignes
 - 52 variables
 
 Etablissements participant:
 ---------------------------
 
+
 ```
-  C1   H1 HUS1 HUS2   M1  Sa1  SV1 
- 120   56  162   60  146   42   79 
+  B1   B2   C1   C2   C3   E1   H1   H2 HUS1 HUS2 HUS3   M1   M2  Sa1  SV1 
+  43   54  120  127  110   58   56   51  162   60  131  146  123   42   79 
+ SV2 
+  84 
 ```
 
-<<<<<<< HEAD
-![](qs_etudiants_files/figure-html/etab-1.png) 
-=======
 ![](qs_etudiants_files/figure-html/participants-1.png) 
->>>>>>> d6bd4c5d8b19d7a895015373e7c84fbb8914f638
 
 Age
 ---
 
 ```
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-  17.00   20.00   21.00   23.48   25.00   48.00      11 
+   17.0    20.0    22.0    24.1    25.0    53.0      27 
 ```
 
 ![](qs_etudiants_files/figure-html/age-1.png) 
@@ -57,12 +57,32 @@ Sexe
     
 
 ```
-<<<<<<< HEAD
+   F    h    H   na NA's 
+1218    1  209    1   17 
+```
 
-```
-##    F    H   NR NA's 
-##  549  108    3    5
-```
+![](qs_etudiants_files/figure-html/sexe-1.png) 
+
+               femmes   hommes   inconnu
+-----------  --------  -------  --------
+nombre        1218.00   210.00     18.00
+proportion      84.23    14.52      1.24
+
+Sous forme de tableau
+<!-- html table generated in R 3.1.3 by xtable 1.7-4 package -->
+<!-- Sun May  3 10:44:02 2015 -->
+<table border=1>
+<caption align="bottom"> Sexe des participants </caption>
+<tr> <th>  </th> <th> femmes </th> <th> hommes </th> <th> inconnu </th>  </tr>
+  <tr> <td align="right"> nombre </td> <td align="right"> 1218.00 </td> <td align="right"> 210.00 </td> <td align="right"> 18.00 </td> </tr>
+  <tr> <td align="right"> proportion </td> <td align="right"> 84.23 </td> <td align="right"> 14.52 </td> <td align="right"> 1.24 </td> </tr>
+   <a name=sexe></a>
+</table>
+
+Pie chart
+![](qs_etudiants_files/figure-html/pie_sexe-1.png) 
+
+
 
 Age et sexe
 -----------
@@ -73,7 +93,7 @@ Pour répondre à la question, on pratique un test statistique pour lequel on d�
 C'est à dire que j'admet H0 (pas de différence) en prenant le risque conssenti de me tromper dans 5% des cas.
 En pratique les logiciels calculent la probabilité exacte d'observer par hasard une telle différence entre les deux groupes. Si cette probabilité est supérieure à 0.05 (cad comprise entre 0.05 et 1) on considère que la différence entre les moyennes est un artefact lié au fluctuation d'échantillonnage et qu'en réalité il n'y a pas de différence entre les groupes. Si au contraire, la probabilité exacte est inférieure à 0.05, on admet qu'elle n'est pas due au hasard et on est obligé d'admettre qu'il y a bien une différence entre les deux groupes. On voit par là le côté arbitraire du petit p, mais il est considéré dans toutes les publications comme un chiffre magique...
 
-Il existe de nombreux tests stratistiques. Pour répondre à la question posée, on utilise le test t de Student qui s'applique si:
+Il existe de nombreux tests statistiques. Pour répondre à la question posée, on utilise le test t de Student qui s'applique si:
 
 - on ne compare que 2 groupes (c'est le cas)
 - la variable d'intérêt (ici l'age) suit une loi normale (on va admettre que oui) dans les 2 groupes
@@ -82,6 +102,7 @@ Il existe de nombreux tests stratistiques. Pour répondre à la question posée,
 La colonne sexe (Q10) comporte 3 valeurs: H, F et NR. Il faut éliminer les NR en les transformant en NA pour rendre le test possible
 
 ```r
+d1$Q10 <- toupper(d1$Q10)
 d1$Q10[d1$Q10 == "NR"] <- NA
 ```
 Puis faire le test:
@@ -96,15 +117,19 @@ t
 ## 	Two Sample t-test
 ## 
 ## data:  d1$Q11 by d1$Q10
-## t = -2.7498, df = 650, p-value = 0.006129
+## t = -3.7563, df = 1415, p-value = 0.0001795
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -3.1159677 -0.5197362
+##  -2.7497617 -0.8630462
 ## sample estimates:
 ## mean in group F mean in group H 
-##        23.15385        24.97170
+##        23.82645        25.63285
 ```
-On voit que la probabilité exacte d'observer <b>par hasard</b> une telle différence entre les moyennes est égale à 0.0061288. Cette probabilité est très inférieure à 0.05 et donc on rejette l'hypothèse d'égalité des ages. En moyenne, pour cet échantillon, les étudiants hommes sont plus agés que les étudiantes et cette différence est statistiquement significative.
+
+```r
+p.t <- t$p.value
+```
+On voit que la probabilité exacte d'observer <b>par hasard</b> une telle différence entre les moyennes est égale à 0.0001795. Cette probabilité est très inférieure à 0.05 et donc on rejette l'hypothèse d'égalité des ages. En moyenne, pour cet échantillon, les étudiants hommes sont plus agés que les étudiantes et cette différence est statistiquement significative.
 
 Comme on peut avoir un doute sérieux sur la normalité de l'age (voir le graphique des ages ci-dessus), on réalise un test non paramétrique, c'est à  dire qui ne fait pas d'hypothèse sur la façon dont la variable est distribuée. Dans le cas particulier on utilise le test de Wilcoxon qui est l'équivalent non paramétrique du test de Student:
 
@@ -118,19 +143,11 @@ wilcox.test(d1$Q11 ~ d1$Q10)
 ## 	Wilcoxon rank sum test with continuity correction
 ## 
 ## data:  d1$Q11 by d1$Q10
-## W = 21322.5, p-value = 1.487e-05
+## W = 97211, p-value = 0.0000002159
 ## alternative hypothesis: true location shift is not equal to 0
 ```
 On arrive à la même conclusion.
-=======
-   F    H   NR NA's 
- 549  108    3    5 
-```
 
-![](qs_etudiants_files/figure-html/sexe-1.png) 
->>>>>>> d6bd4c5d8b19d7a895015373e7c84fbb8914f638
-
-```
 
 Q1- Pour ce cours, vous avez pris des notes
 --------------------------------------------
@@ -143,7 +160,7 @@ s
 
 ```
 ##   ordi papier    pas      X 
-##    154    365     97     49
+##    410    720    232     84
 ```
 
 ```r
@@ -156,7 +173,7 @@ Q2- Pendant ce cours, vous avez complété la prise de notes par (plusieurs rép
 ---------------------------------------------------------------------------------------------
 La variable Q2.5 est anormale. Il ne peut y avoir dans la même colonne du texte et des nombres. La colonne ne peut contenir que 1 ou NA. Créer une colnne supplémentaire pour le texte. Par ex. Q2-7.
 
-![](qs_etudiants_files/figure-html/unnamed-chunk-1-1.png) 
+![](qs_etudiants_files/figure-html/unnamed-chunk-2-1.png) 
 
 Q3- Quels sont les outils numériques que vous aviez avec vous pendant ce cours? (plusieurs réponses possibles)
 ------------------------------------
@@ -170,11 +187,11 @@ colonnes 10: ():non, oui sur la table= ot,	oui dans mon sac ou ma poche= osp
 ```
 d1$Q3.1tpc : 
         Frequency Percent Cum. percent
-non           391    58.8         58.8
-NR            141    21.2         80.0
-osp            86    12.9         92.9
-ot             47     7.1        100.0
-  Total       665   100.0        100.0
+na            291    20.1         20.1
+non           855    59.1         79.3
+osp           163    11.3         90.5
+ot            137     9.5        100.0
+  Total      1446   100.0        100.0
 ```
 
 Q4- Pendant ce cours (en dehors des temps de pause éventuels), vous avez utilisé votre téléphone pour (plusieurs réponses possibles):
@@ -201,12 +218,12 @@ Combien d'actions simultannément:
 
 ```
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-  0.000   1.000   2.000   2.039   3.000  12.000 
+  0.000   1.000   2.000   2.146   3.000  12.000 
 ```
 
 ```
-  0   1   2   3   4   5   6   7  11  12 
- 17 315 152  79  50  32   9   9   1   1 
+  0   1   2   3   4   5   6   7   8  11  12 
+ 42 635 311 207 122  74  31  18   4   1   1 
 ```
 
 ![](qs_etudiants_files/figure-html/actions_sim-1.png) 
@@ -217,8 +234,8 @@ question 31
 
 
 ```
-  1X jnsp   js   NR  nvp  qqf   sv   tt NA's 
-  58    4  357   43    7  126   24    4   42 
+  1X  jjs jnsp   js   na   NR  nvp  qqf   sv   tt NA's 
+ 136    1    9  835    6   66   11  251   64    9   58 
 ```
 
 ![](qs_etudiants_files/figure-html/utilisation-1.png) 
@@ -226,16 +243,18 @@ question 31
 ```
 as.factor(d1$Q5) : 
         Frequency   %(NA+)   %(NA-)
-js            357     53.7     57.3
-qqf           126     18.9     20.2
-1X             58      8.7      9.3
-NR             43      6.5      6.9
-NA's           42      6.3      0.0
-sv             24      3.6      3.9
-nvp             7      1.1      1.1
-jnsp            4      0.6      0.6
-tt              4      0.6      0.6
-  Total       665    100.0    100.0
+js            835     57.7     60.2
+qqf           251     17.4     18.1
+1X            136      9.4      9.8
+NR             66      4.6      4.8
+sv             64      4.4      4.6
+NA's           58      4.0      0.0
+nvp            11      0.8      0.8
+jnsp            9      0.6      0.6
+tt              9      0.6      0.6
+na              6      0.4      0.4
+jjs             1      0.1      0.1
+  Total      1446    100.0    100.0
 ```
 
 
@@ -245,8 +264,8 @@ question 32
 
 
 ```
-  1X jnsp   js   NR  nvp  qqf   sv   tt NA's 
-  86    3  153   43   11  221   91   15   42 
+  1X jnsp   js   na   NR  nvp  qqf   sv   tt NA's 
+ 183    5  303    3   67   16  524  242   45   58 
 ```
 
 ![](qs_etudiants_files/figure-html/utilisation2-1.png) 
@@ -254,16 +273,17 @@ question 32
 ```
 as.factor(d1$Q6) : 
         Frequency   %(NA+)   %(NA-)
-qqf           221     33.2     35.5
-js            153     23.0     24.6
-sv             91     13.7     14.6
-1X             86     12.9     13.8
-NR             43      6.5      6.9
-NA's           42      6.3      0.0
-tt             15      2.3      2.4
-nvp            11      1.7      1.8
-jnsp            3      0.5      0.5
-  Total       665    100.0    100.0
+qqf           524     36.2     37.8
+js            303     21.0     21.8
+sv            242     16.7     17.4
+1X            183     12.7     13.2
+NR             67      4.6      4.8
+NA's           58      4.0      0.0
+tt             45      3.1      3.2
+nvp            16      1.1      1.2
+jnsp            5      0.3      0.4
+na              3      0.2      0.2
+  Total      1446    100.0    100.0
 ```
 
 Q7- Pendant ce cours (en dehors des temps de pause éventuels), vous avez utilisé votre tablette et/ ou votre ordinateur pour (plusieurs réponses possibles):
@@ -276,19 +296,21 @@ Questions 33 à 48
 ```
 
 ```
-                            1       frfiches        Lemotiv           lire 
-           625              1              1              1              1 
-    notercours             NR            ppt         prepCV     reg-photos 
-            17             11              1              1              1 
-regautre cours       regcours         regppt           shop 
-             1              1              1              2 
+                            1          cours  dessinerpaint        docmail 
+          1335              1              1              1              1 
+      frfiches    inscrcourse        Lemotiv           lire             na 
+             1              1              1              3             36 
+    notercours    orgdossinfo            ppt       pptcours         prepCV 
+            39              1              1              3              2 
+ reg_autr_cour   reg_pptander      reg-heure     reg-photos        reg-ppt 
+             1              1              1              1              1 
+regautre cours       regcours         regppt           shop    suivrecours 
+             1              1              1              3              1 
+       support  telecharcours            TFE           word           WTFE 
+             1              1              3              1              1 
 ```
 
-<<<<<<< HEAD
-![](qs_etudiants_files/figure-html/unnamed-chunk-2-1.png) 
-=======
 ![](qs_etudiants_files/figure-html/q7-1.png) 
->>>>>>> d6bd4c5d8b19d7a895015373e7c84fbb8914f638
 
 
 
@@ -300,16 +322,17 @@ question 49
 ```
 as.factor(d1$Q8) : 
         Frequency   %(NA+)   %(NA-)
-NA's          302     45.4      0.0
-js            125     18.8     34.4
-tt            125     18.8     34.4
-sv             35      5.3      9.6
-NR             29      4.4      8.0
-qqf            27      4.1      7.4
-1X             12      1.8      3.3
-nvp             9      1.4      2.5
-jnsp            1      0.2      0.3
-  Total       665    100.0    100.0
+NA's          593     41.0      0.0
+tt            329     22.8     38.6
+js            279     19.3     32.7
+NR             71      4.9      8.3
+qqf            64      4.4      7.5
+sv             63      4.4      7.4
+1X             27      1.9      3.2
+nvp            16      1.1      1.9
+jnsp            2      0.1      0.2
+na              2      0.1      0.2
+  Total      1446    100.0    100.0
 ```
 
 
@@ -322,16 +345,17 @@ question 50
 ```
 as.factor(d1$Q9) : 
         Frequency   %(NA+)   %(NA-)
-NA's          302     45.4      0.0
-js            203     30.5     55.9
-qqf            49      7.4     13.5
-1X             32      4.8      8.8
-NR             32      4.8      8.8
-sv             21      3.2      5.8
-tt             14      2.1      3.9
-nvp            10      1.5      2.8
-jnsp            2      0.3      0.6
-  Total       665    100.0    100.0
+NA's          593     41.0      0.0
+js            494     34.2     57.9
+qqf            96      6.6     11.3
+NR             77      5.3      9.0
+1X             76      5.3      8.9
+sv             53      3.7      6.2
+tt             34      2.4      4.0
+nvp            19      1.3      2.2
+jnsp            2      0.1      0.2
+na              2      0.1      0.2
+  Total      1446    100.0    100.0
 ```
 
 
@@ -342,33 +366,9 @@ Informations pour le chapitre matériel et méthode.
 
 
 ```
-<<<<<<< HEAD
-## R version 3.1.3 (2015-03-09)
-## Platform: x86_64-pc-linux-gnu (64-bit)
-## Running under: Ubuntu 14.04.2 LTS
-## 
-## locale:
-##  [1] LC_CTYPE=fr_FR.UTF-8       LC_NUMERIC=C              
-##  [3] LC_TIME=fr_FR.UTF-8        LC_COLLATE=fr_FR.UTF-8    
-##  [5] LC_MONETARY=fr_FR.UTF-8    LC_MESSAGES=fr_FR.UTF-8   
-##  [7] LC_PAPER=fr_FR.UTF-8       LC_NAME=C                 
-##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-## [11] LC_MEASUREMENT=fr_FR.UTF-8 LC_IDENTIFICATION=C       
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## other attached packages:
-## [1] epicalc_2.15.1.0 nnet_7.3-9       MASS_7.3-39      survival_2.38-1 
-## [5] foreign_0.8-63  
-## 
-## loaded via a namespace (and not attached):
-##  [1] digest_0.6.4    evaluate_0.5.5  formatR_1.0     htmltools_0.2.6
-##  [5] knitr_1.9       rmarkdown_0.5.1 splines_3.1.3   stringr_0.6.2  
-##  [9] tools_3.1.3     yaml_2.1.13
-=======
-R version 3.1.2 (2014-10-31)
-Platform: x86_64-apple-darwin10.8.0 (64-bit)
+R version 3.1.3 (2015-03-09)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+Running under: OS X 10.10.3 (Yosemite)
 
 locale:
 [1] fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8
@@ -377,14 +377,13 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] epicalc_2.15.1.0 nnet_7.3-9       MASS_7.3-39      survival_2.38-1 
-[5] foreign_0.8-63  
+[1] knitr_1.10       xtable_1.7-4     stringr_0.6.2    epicalc_2.15.1.0
+[5] nnet_7.3-9       MASS_7.3-40      survival_2.38-1  foreign_0.8-63  
 
 loaded via a namespace (and not attached):
- [1] digest_0.6.8    evaluate_0.5.5  formatR_1.0     htmltools_0.2.6
- [5] knitr_1.9       rmarkdown_0.5.1 splines_3.1.2   stringr_0.6.2  
- [9] tools_3.1.2     yaml_2.1.13    
->>>>>>> d6bd4c5d8b19d7a895015373e7c84fbb8914f638
+[1] digest_0.6.8      evaluate_0.7      formatR_1.2       highr_0.5        
+[5] htmltools_0.2.6   rmarkdown_0.5.3.2 splines_3.1.3     tools_3.1.3      
+[9] yaml_2.1.13      
 ```
 
 

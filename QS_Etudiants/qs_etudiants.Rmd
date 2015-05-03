@@ -1,9 +1,13 @@
+
 ---
 title: "Questionnaire étudiant"
 author: "Sebri, JcB"
 date: "19/02/2015"
 output:
   pdf_document:
+    fig_caption: yes
+    keep_tex: yes
+    number_sections: yes
     toc: yes
   html_document:
     fig_caption: yes
@@ -15,18 +19,27 @@ output:
 Questionnaire étudiant
 ======================
 
-```{r init, echo=FALSE}
+```{r init, echo=FALSE, message=FALSE, comment=""}
 # library(knitr)
 # set global chunk options
 # , cache=TRUE, warning=FALSE, tidy=FALSE
 # opts_chunk$set(echo = FALSE, fig.width=8, fig.height=6)
+
+options(scipen = 6) # supprime notation scientifique
+
+style <- "latex" # html si knit html
 
 path <- "../"
 file1 <- "data/M2 enquete - ESI.csv"
 d1 <- read.csv(paste0(path, file1), skip = 1, stringsAsFactors = FALSE)
 names(d1)
 
-library("epicalc")
+library(epicalc)
+library(stringr)
+library(xtable)
+library(knitr)
+source('~/Documents/CESU/Sebri/sebri.R')
+
 ```
 Le fichier comporte:
 
@@ -35,11 +48,8 @@ Le fichier comporte:
 
 Etablissements participant:
 ---------------------------
-<<<<<<< HEAD
-```{r etab}
-=======
+
 ```{r participants, echo=FALSE, comment=""}
->>>>>>> d6bd4c5d8b19d7a895015373e7c84fbb8914f638
 s <- summary(as.factor(d1$Etab))
 s
 pie(s)
@@ -47,18 +57,48 @@ pie(s)
 
 Age
 ---
-```{r age, echo=FALSE, comment=""}
+```{r age, echo=FALSE, comment="", warning=FALSE}
+d1$Q11 <- as.numeric(d1$Q11)
 summary(d1$Q11)
-hist(d1$Q11, main = "Histogramme de l'age", xlab = "Age", ylab = "Fréquence")
+hist(d1$Q11, main = "Histogramme de l'age", xlab = "Age", ylab = "Fréquence", col="cornflowerblue", border="white", breaks = 10)
 ```
 
 Sexe
 ----
     
 ```{r sexe, echo=FALSE, comment=""}
+# erreur: certains items sont en minuscule:
 summary(as.factor(d1$Q10))
 pie(summary(as.factor(d1$Q10)), main = "Sexe")
+
+# correction
+d1$Q10 <- toupper(str_trim(d1$Q10))
+d1$Q10[d1$Q10 == "NA"] <- NA
+
 ```
+Test de la routine __factor2table__
+```{r}
+f <- factor2table(d1$Q10, digit=2, col=c("femmes","hommes","inconnu"))
+f
+```
+Sous forme de tableau avec __kable__:
+
+```{r, echo=FALSE}
+kable(f, format = style, caption = "Sexe des participants")
+```
+
+Sous forme de tableau avec __xtable__:
+
+```{r sexe_tab, echo=FALSE, results='asis', message=FALSE}
+print.xtable(xtable(f, caption = "Sexe des participants", label = "sexe"), type = style)
+```
+
+Pie chart
+```{r pie_sexe, echo=FALSE}
+pie(summary(as.factor(d1$Q10)), main = "Sexe", col = c("yellow ","green","blue"))
+```
+
+
 
 Age et sexe
 -----------
@@ -77,18 +117,19 @@ Il existe de nombreux tests statistiques. Pour répondre à la question posée, 
 
 La colonne sexe (Q10) comporte 3 valeurs: H, F et NR. Il faut éliminer les NR en les transformant en NA pour rendre le test possible
 ```{r nr, echo=TRUE}
+d1$Q10 <- toupper(d1$Q10)
 d1$Q10[d1$Q10 == "NR"] <- NA
 ```
 Puis faire le test:
 ```{r age_sexe}
 t <- t.test(d1$Q11 ~ d1$Q10, var.equal = TRUE)
 t
+p.t <- t$p.value
 ```
-On voit que la probabilité exacte d'observer <b>par hasard</b> une telle différence entre les moyennes est égale à `r t$p.value`. Cette probabilité est très inférieure à 0.05 et donc on rejette l'hypothèse d'égalité des ages. En moyenne, pour cet échantillon, les étudiants hommes sont plus agés que les étudiantes et cette différence est statistiquement significative.
+On voit que la probabilité exacte d'observer <b>par hasard</b> une telle différence entre les moyennes est égale à `r p.t`. Cette probabilité est très inférieure à 0.05 et donc on rejette l'hypothèse d'égalité des ages. En moyenne, pour cet échantillon, les étudiants hommes sont plus agés que les étudiantes et cette différence est statistiquement significative.
 
 Comme on peut avoir un doute sérieux sur la normalité de l'age (voir le graphique des ages ci-dessus), on réalise un test non paramétrique, c'est à  dire qui ne fait pas d'hypothèse sur la façon dont la variable est distribuée. Dans le cas particulier on utilise le test de Wilcoxon qui est l'équivalent non paramétrique du test de Student:
 
-<<<<<<< HEAD
 ```{r wilcox}
 wilcox.test(d1$Q11 ~ d1$Q10)
 
@@ -96,14 +137,13 @@ wilcox.test(d1$Q11 ~ d1$Q10)
 On arrive à la même conclusion.
 
 
-=======
->>>>>>> d6bd4c5d8b19d7a895015373e7c84fbb8914f638
 Q1- Pour ce cours, vous avez pris des notes
 --------------------------------------------
 
-```{r}
+```{r Q1, echo=FALSE, comment=""}
 s <- summary(as.factor(d1$Q1))
-s
+
+factor2table(d1$Q1)
 barplot(s, main = "Support de notes utilisé par l'étudiant")
 ```
 
@@ -111,8 +151,18 @@ Q2- Pendant ce cours, vous avez complété la prise de notes par (plusieurs rép
 ---------------------------------------------------------------------------------------------
 La variable Q2.5 est anormale. Il ne peut y avoir dans la même colonne du texte et des nombres. La colonne ne peut contenir que 1 ou NA. Créer une colnne supplémentaire pour le texte. Par ex. Q2-7.
 
-```{r, echo=FALSE, comment=""}
-note <- d1[,c(4:7,9)]
+```{r, echo=FALSE, comment="", warning=FALSE}
+# pb dans le source: les NA sont écris en minuscule (na) ce qui fait que tout la colonne est comprise comme des charecter et la somme plante
+# transformation en integer (il doit y avoir un autre moyen...)
+d1$Q2.1 <- sapply(d1$Q2.1, as.integer)
+d1$Q2.2 <- sapply(d1$Q2.2, as.integer)
+d1$Q2.3 <- sapply(d1$Q2.3, as.integer)
+d1$Q2.4 <- sapply(d1$Q2.4, as.integer)
+d1$Q2.5 <- sapply(d1$Q2.5, as.integer)
+d1$Q2.6 <- sapply(d1$Q2.6, as.integer)
+
+note <- d1[,c(4:9)]
+
 x <- apply(note, 2, function(x){sum(x, na.rm = TRUE)}) # on fait la somme des colonnes
 names(x) <- names(note)
 barplot(sort(x, decreasing = TRUE), horiz = FALSE, las = 2, cex.names = 0.8, main = "Compléments de la prise de notes", ylab = "Fréquence")
@@ -143,7 +193,7 @@ q4 <- as.data.frame(sapply(q4, as.integer))
 a <- apply(q4,2,sum, na.rm = TRUE)
 x <- barplot(sort(a, decreasing = TRUE), las = 2, main = "Utilisation du téléphone pendant le cours")
 v <- paste0(sort(round(a*100/sum(a), 2), decreasing = TRUE), "%")
-text(x, 50, v, srt=90)
+text(x, 100, v, srt=90, cex = 0.8)
 ```
 
 Combien d'actions simultannément:
@@ -199,7 +249,7 @@ q7.2 <- sapply(q7.2, function(x){ifelse(x != "1", NA, 1)})
 a <- apply(q7.2, 2, sum, na.rm = TRUE)
 x <- barplot(sort(a, decreasing = TRUE), las = 2, main = "Utilisation de la tablette pendant le cours pour:")
 v <- paste0(sort(round(a*100/sum(a), 2), decreasing = TRUE), "%")
-text(x, 50, v, srt=90) # srt verticalise le texte
+text(x, 100, v, srt=90, cex = 0.8) # srt verticalise le texte
 ```
 
 
@@ -231,6 +281,7 @@ Informations pour le chapitre matériel et méthode.
 ```{r session, echo=FALSE, comment=""}
 sessionInfo()
 
+citation()
 ```
 
 
