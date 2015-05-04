@@ -69,14 +69,14 @@ hist(d1$Q11, main = "Histogramme de l'age", xlab = "Age", ylab = "Fréquence", c
 ### Générations
 ```{r generation}
 # génération
-# X = 15 à 20 ans
+# Z = 15 à 20 ans
 # Y = 20 à 35 ans
-# Z > 35 ans
+# X > 35 ans
 
 age <- c(15, 20, 35, 60)
 g <- cut(d1$Q11, age)
 summary(g)
-g2 <- cut(d1$Q11, age, labels = c("X", "Y", "Z"))
+g2 <- cut(d1$Q11, age, labels = c("Z", "Y", "X"))
 summary(g2)
 
 # ajout d'une colonne GENERATION

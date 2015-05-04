@@ -117,7 +117,7 @@
 }
 \section{Questionnaire étudiant}\label{questionnaire-etudiant}
 
-Version du Mon May 4 16:17:41 2015
+Version du Mon May 4 20:50:55 2015
 
 \begin{verbatim}
  [1] "Etab"    "Etud"    "Q1"      "Q2.1"    "Q2.2"    "Q2.3"    "Q2.4"   
@@ -172,9 +172,9 @@ participant:}\label{etablissements-participant}
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# génération}
-\CommentTok{# X = 15 à 20 ans}
+\CommentTok{# Z = 15 à 20 ans}
 \CommentTok{# Y = 20 à 35 ans}
-\CommentTok{# Z > 35 ans}
+\CommentTok{# X > 35 ans}
 
 \NormalTok{age <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{15}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{35}\NormalTok{, }\DecValTok{60}\NormalTok{)}
 \NormalTok{g <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(d1$Q11, age)}
@@ -189,13 +189,13 @@ participant:}\label{etablissements-participant}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{g2 <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(d1$Q11, age, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"X"}\NormalTok{, }\StringTok{"Y"}\NormalTok{, }\StringTok{"Z"}\NormalTok{))}
+\NormalTok{g2 <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(d1$Q11, age, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"Z"}\NormalTok{, }\StringTok{"Y"}\NormalTok{, }\StringTok{"X"}\NormalTok{))}
 \KeywordTok{summary}\NormalTok{(g2)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##    X    Y    Z NA's 
+##    Z    Y    X NA's 
 ##  466  826  127   27
 \end{verbatim}
 
@@ -208,7 +208,7 @@ participant:}\label{etablissements-participant}
 \end{Shaded}
 
 \begin{verbatim}
-##                 X      Y      Z  NA's
+##                 Z      Y      X  NA's
 ## nombre     466.00 826.00 127.00 27.00
 ## proportion  32.23  57.12   8.78  1.87
 \end{verbatim}
@@ -266,7 +266,7 @@ proportion & 84.23 & 14.52 & 1.24\\
 Sous forme de tableau avec \textbf{xtable}:
 
 \% latex table generated in R 3.1.3 by xtable 1.7-4 package \% Mon May 4
-16:17:46 2015
+20:51:00 2015
 
 \begin{table}[ht]
 \centering
