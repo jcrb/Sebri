@@ -1,0 +1,17 @@
+Date,QA,QB,QC,QD,QE,QF,QG,QH,QI,QJ,QK,QL,
+18/02/2015,SV1,S2,non,oui,non,oui,oui_fin,2,int,oui,11/03/2015,non,
+25/02/2015,HUS1,S1,non,oui,non,non,na,3,int,non,17/04/2015,oui,
+26/02/2015,HUS2,S5,non,oui,non,oui,oui_deb,3,int,non,20/03/2015,oui,
+02/03/2015,Sa1,S5,oui,oui,non,oui,oui_fin,2,int,oui,15/06/2015,oui,
+03/03/2015,H1,S3,oui,oui,non,oui,oui_fin,1,int,non,16/03/2015,oui,
+05/03/2015,C1,S4,oui,oui,non,oui,oui_fin,2,int,non,na,na,équipe pédagogique a recadré les ESI sur l'utilisation du téléphone la veille 
+18/03/2015,M1,S2,oui,oui,non,oui,oui_deb,1,Fo,oui,15/06/2015,oui,
+23/03/2015,E1,S3,non,oui,non,non,na,3,int,oui,24/03/2015,non,support papier transmis par l'intervenant 
+25/03/2015,M2,S6,oui,oui,oui,oui,oui_deb,1,Fo,oui,18/05/2015,oui,2supports 1avant 1après
+27/03/2015,C2,S2,non,oui,non,non,na,2,int,non,na,na,
+14/04/2015,HUS3,S3,non,oui,non,oui,oui_deb,3,int,non,14/04/2015,oui,
+15/04/2015,SV2,S5,oui,oui,non,oui,oui_pdt,3,int,oui,12/06/2015,non,
+16/04/2015,H2,S5,non,oui,non,oui,oui_fin,1,int,non,26/05/2015,non,2intIDE et med
+17/04/2015,C3,S6,oui,oui,non,non,na,3,int,non,11/05/2015,non,
+20/04/2015,B1,S5,non,oui,non,non,na,3,int,oui,05/06/2015,oui,
+22/04/2015,B2,S2,non,non,non,non,na,3,int,oui,na,na,

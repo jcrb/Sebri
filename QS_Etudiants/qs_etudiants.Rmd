@@ -19,6 +19,8 @@ output:
 Questionnaire étudiant
 ======================
 
+Version du `r date()`
+
 ```{r init, echo=FALSE, message=FALSE, comment=""}
 # library(knitr)
 # set global chunk options
@@ -61,7 +63,28 @@ Age
 d1$Q11 <- as.numeric(d1$Q11)
 summary(d1$Q11)
 hist(d1$Q11, main = "Histogramme de l'age", xlab = "Age", ylab = "Fréquence", col="cornflowerblue", border="white", breaks = 10)
+
 ```
+
+### Générations
+```{r generation}
+# génération
+# X = 15 à 20 ans
+# Y = 20 à 35 ans
+# Z > 35 ans
+
+age <- c(15, 20, 35, 60)
+g <- cut(d1$Q11, age)
+summary(g)
+g2 <- cut(d1$Q11, age, labels = c("X", "Y", "Z"))
+summary(g2)
+
+# ajout d'une colonne GENERATION
+d1$GENERATION <- g2
+factor2table(d1$GENERATION)
+barplot(summary(d1$GENERATION), xlab = "Génération", ylab = "nombre", main = "Répartition des générations au sein des étudiants")
+```
+
 
 Sexe
 ----
@@ -143,7 +166,9 @@ Q1- Pour ce cours, vous avez pris des notes
 ```{r Q1, echo=FALSE, comment=""}
 s <- summary(as.factor(d1$Q1))
 
+# répartition en nombre + pourcentage
 factor2table(d1$Q1)
+
 barplot(s, main = "Support de notes utilisé par l'étudiant")
 ```
 
@@ -152,8 +177,9 @@ Q2- Pendant ce cours, vous avez complété la prise de notes par (plusieurs rép
 La variable Q2.5 est anormale. Il ne peut y avoir dans la même colonne du texte et des nombres. La colonne ne peut contenir que 1 ou NA. Créer une colnne supplémentaire pour le texte. Par ex. Q2-7.
 
 ```{r, echo=FALSE, comment="", warning=FALSE}
-# pb dans le source: les NA sont écris en minuscule (na) ce qui fait que tout la colonne est comprise comme des charecter et la somme plante
+# pb dans le source: les NA sont écris en minuscule (na) ce qui fait que tout la colonne est comprise comme des character et la somme plante
 # transformation en integer (il doit y avoir un autre moyen...)
+
 d1$Q2.1 <- sapply(d1$Q2.1, as.integer)
 d1$Q2.2 <- sapply(d1$Q2.2, as.integer)
 d1$Q2.3 <- sapply(d1$Q2.3, as.integer)
@@ -162,10 +188,21 @@ d1$Q2.5 <- sapply(d1$Q2.5, as.integer)
 d1$Q2.6 <- sapply(d1$Q2.6, as.integer)
 
 note <- d1[,c(4:9)]
-
-x <- apply(note, 2, function(x){sum(x, na.rm = TRUE)}) # on fait la somme des colonnes
+# on fait la somme des colonnes
+x <- apply(note, 2, function(x){sum(x, na.rm = TRUE)}) 
 names(x) <- names(note)
+# moyenne de chaque colonne
+mean.x <- x * 100/nrow(note)
+
 barplot(sort(x, decreasing = TRUE), horiz = FALSE, las = 2, cex.names = 0.8, main = "Compléments de la prise de notes", ylab = "Fréquence")
+
+# somme des lignes = nb de compléments utilisés simultanément
+y <- apply(note, 1, function(x){sum(x, na.rm = TRUE)})
+factor2table(y)
+
+barplot(table(y), ylab="nombre d'étudiants", xlab = "nombre de moyens complémentaires", main = "Nombre de compléments aux prises de notes")
+
+# pour ceux qui n'utilisent q'un moyen
 ```
 
 Q3- Quels sont les outils numériques que vous aviez avec vous pendant ce cours? (plusieurs réponses possibles)
@@ -176,7 +213,15 @@ Colonnes 11 à 14
 colonnes 10: ():non, oui sur la table= ot,	oui dans mon sac ou ma poche= osp
 
 ```{r outils, echo=FALSE, comment=""}
-tab1(d1$Q3.1tpc, main = "Téléphhone portable classique, ylab = Fréquence")
+# portable classique
+d1$Q3.1tpc[d1$Q3.1tpc == "na"] <- NA
+tab1(d1$Q3.1tpc, main = "Téléphone portable classique", ylab = "Fréquence")
+# Smartphone
+tab1(d1$Q3.2sp, main = "Smartphone", ylab = "Fréquence")
+# Tablette
+tab1(d1$Q3.3tab, main = "Tablette", ylab = "Fréquence")
+# ordinateur
+tab1(d1$Q3.4ord, main = "Ordinateur", ylab = "Fréquence")
 
 ```
 

@@ -11,7 +11,7 @@ factor2table <- function(x, col = NULL, digit = 2){
     t.x <- rbind(s.x, p.x)
     rownames(t.x) <- c("nombre", "proportion")
     if(is.null(col))
-        colnames(t.x) <- levels(x)
+        colnames(t.x) <- colnames(t.x) #levels(x)
     else
         colnames(t.x) <- col
     return(t.x)

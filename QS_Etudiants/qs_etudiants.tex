@@ -117,6 +117,8 @@
 }
 \section{Questionnaire étudiant}\label{questionnaire-etudiant}
 
+Version du Mon May 4 16:17:41 2015
+
 \begin{verbatim}
  [1] "Etab"    "Etud"    "Q1"      "Q2.1"    "Q2.2"    "Q2.3"    "Q2.4"   
  [8] "Q2.5"    "Q2.6"    "Q2.7"    "Q3.1tpc" "Q3.2sp"  "Q3.3tab" "Q3.4ord"
@@ -165,11 +167,68 @@ participant:}\label{etablissements-participant}
 \includegraphics{qs_etudiants_files/figure-latex/age-1.pdf}
 \end{figure}
 
+\subsubsection{Générations}\label{generations}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# génération}
+\CommentTok{# X = 15 à 20 ans}
+\CommentTok{# Y = 20 à 35 ans}
+\CommentTok{# Z > 35 ans}
+
+\NormalTok{age <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{15}\NormalTok{, }\DecValTok{20}\NormalTok{, }\DecValTok{35}\NormalTok{, }\DecValTok{60}\NormalTok{)}
+\NormalTok{g <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(d1$Q11, age)}
+\KeywordTok{summary}\NormalTok{(g)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## (15,20] (20,35] (35,60]    NA's 
+##     466     826     127      27
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{g2 <-}\StringTok{ }\KeywordTok{cut}\NormalTok{(d1$Q11, age, }\DataTypeTok{labels =} \KeywordTok{c}\NormalTok{(}\StringTok{"X"}\NormalTok{, }\StringTok{"Y"}\NormalTok{, }\StringTok{"Z"}\NormalTok{))}
+\KeywordTok{summary}\NormalTok{(g2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    X    Y    Z NA's 
+##  466  826  127   27
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# ajout d'une colonne GENERATION}
+\NormalTok{d1$GENERATION <-}\StringTok{ }\NormalTok{g2}
+\KeywordTok{factor2table}\NormalTok{(d1$GENERATION)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                 X      Y      Z  NA's
+## nombre     466.00 826.00 127.00 27.00
+## proportion  32.23  57.12   8.78  1.87
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{barplot}\NormalTok{(}\KeywordTok{summary}\NormalTok{(d1$GENERATION), }\DataTypeTok{xlab =} \StringTok{"Génération"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"nombre"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Répartition des générations au sein des étudiants"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{qs_etudiants_files/figure-latex/generation-1.pdf}
+\end{figure}
+
 \subsection{Sexe}\label{sexe}
 
 \begin{verbatim}
-   F    h    H   na NA's 
-1218    1  209    1   17 
+   F    H   na NA's 
+1218  210    1   17 
 \end{verbatim}
 
 \includegraphics{qs_etudiants_files/figure-latex/sexe-1.pdf} Test de la
@@ -206,8 +265,8 @@ proportion & 84.23 & 14.52 & 1.24\\
 
 Sous forme de tableau avec \textbf{xtable}:
 
-\% latex table generated in R 3.1.3 by xtable 1.7-4 package \% Sun May 3
-15:45:39 2015
+\% latex table generated in R 3.1.3 by xtable 1.7-4 package \% Mon May 4
+16:17:46 2015
 
 \begin{table}[ht]
 \centering
@@ -372,6 +431,17 @@ une colnne supplémentaire pour le texte. Par ex. Q2-7.
 \includegraphics{qs_etudiants_files/figure-latex/unnamed-chunk-3-1.pdf}
 \end{figure}
 
+\begin{verbatim}
+              0       1      2     3    4
+nombre     8.00 1201.00 218.00 17.00 2.00
+proportion 0.55   83.06  15.08  1.18 0.14
+\end{verbatim}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{qs_etudiants_files/figure-latex/unnamed-chunk-3-2.pdf}
+\end{figure}
+
 \subsection{Q3- Quels sont les outils numériques que vous aviez avec
 vous pendant ce cours? (plusieurs réponses
 possibles)}\label{q3--quels-sont-les-outils-numeriques-que-vous-aviez-avec-vous-pendant-ce-cours-plusieurs-reponses-possibles}
@@ -391,12 +461,58 @@ osp
 
 \begin{verbatim}
 d1$Q3.1tpc : 
-        Frequency Percent Cum. percent
-na            291    20.1         20.1
-non           855    59.1         79.3
-osp           163    11.3         90.5
-ot            137     9.5        100.0
-  Total      1446   100.0        100.0
+        Frequency   %(NA+)   %(NA-)
+non           855     59.1     74.0
+osp           163     11.3     14.1
+ot            137      9.5     11.9
+<NA>          291     20.1      0.0
+  Total      1446    100.0    100.0
+\end{verbatim}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{qs_etudiants_files/figure-latex/outils-2.pdf}
+\end{figure}
+
+\begin{verbatim}
+d1$Q3.2sp : 
+        Frequency   %(NA+)   %(NA-)
+non           216     14.9     16.2
+osp           367     25.4     27.6
+ot            748     51.7     56.2
+<NA>          115      8.0      0.0
+  Total      1446    100.0    100.0
+\end{verbatim}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{qs_etudiants_files/figure-latex/outils-3.pdf}
+\end{figure}
+
+\begin{verbatim}
+d1$Q3.3tab : 
+        Frequency   %(NA+)   %(NA-)
+non           931     64.4     86.8
+osp            26      1.8      2.4
+ot            115      8.0     10.7
+<NA>          374     25.9      0.0
+  Total      1446    100.0    100.0
+\end{verbatim}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{qs_etudiants_files/figure-latex/outils-4.pdf}
+\end{figure}
+
+\begin{verbatim}
+d1$Q3.4ord : 
+        Frequency   %(NA+)   %(NA-)
+non           644     44.5     53.1
+npn             1      0.1      0.1
+osp            58      4.0      4.8
+ot            510     35.3     42.0
+<NA>          233     16.1      0.0
+  Total      1446    100.0    100.0
 \end{verbatim}
 
 \subsection{Q4- Pendant ce cours (en dehors des temps de pause
@@ -523,16 +639,16 @@ Questions 33 à 48
 \begin{verbatim}
                             1          cours  dessinerpaint        docmail 
           1335              1              1              1              1 
-      frfiches    inscrcourse        Lemotiv           lire             na 
-             1              1              1              3             36 
-    notercours    orgdossinfo            ppt       pptcours         prepCV 
-            39              1              1              3              2 
- reg_autr_cour   reg_pptander      reg-heure     reg-photos        reg-ppt 
+      frfiches    inscrcourse        Lemotiv           lire     notercours 
+             1              1              1              3             39 
+   orgdossinfo            ppt       pptcours         prepCV  reg_autr_cour 
+             1              1              3              2              1 
+  reg_pptander      reg-heure     reg-photos        reg-ppt regautre cours 
              1              1              1              1              1 
-regautre cours       regcours         regppt           shop    suivrecours 
-             1              1              1              3              1 
-       support  telecharcours            TFE           word           WTFE 
+      regcours         regppt           shop    suivrecours        support 
              1              1              3              1              1 
+ telecharcours            TFE           word           WTFE           NA's 
+             1              3              1              1             36 
 \end{verbatim}
 
 \begin{figure}[htbp]
@@ -552,16 +668,15 @@ question 49
 \begin{verbatim}
 as.factor(d1$Q8) : 
         Frequency   %(NA+)   %(NA-)
-NA's          593     41.0      0.0
-tt            329     22.8     38.6
-js            279     19.3     32.7
+NA's          595     41.1      0.0
+tt            329     22.8     38.7
+js            279     19.3     32.8
 NR             71      4.9      8.3
 qqf            64      4.4      7.5
 sv             63      4.4      7.4
 1X             27      1.9      3.2
 nvp            16      1.1      1.9
 jnsp            2      0.1      0.2
-na              2      0.1      0.2
   Total      1446    100.0    100.0
 \end{verbatim}
 
@@ -581,8 +696,8 @@ question 50
 \begin{verbatim}
 as.factor(d1$Q9) : 
         Frequency   %(NA+)   %(NA-)
-NA's          593     41.0      0.0
-js            494     34.2     57.9
+NA's          595     41.1      0.0
+js            494     34.2     58.0
 qqf            96      6.6     11.3
 NR             77      5.3      9.0
 1X             76      5.3      8.9
@@ -590,7 +705,6 @@ sv             53      3.7      6.2
 tt             34      2.4      4.0
 nvp            19      1.3      2.2
 jnsp            2      0.1      0.2
-na              2      0.1      0.2
   Total      1446    100.0    100.0
 \end{verbatim}
 
@@ -610,12 +724,14 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] knitr_1.10       xtable_1.7-4     stringr_0.6.2    epicalc_2.15.1.0
+[1] knitr_1.10       xtable_1.7-4     stringr_1.0.0    epicalc_2.15.1.0
 [5] nnet_7.3-9       MASS_7.3-40      survival_2.38-1  foreign_0.8-63  
 
 loaded via a namespace (and not attached):
-[1] digest_0.6.8      evaluate_0.7      formatR_1.2       htmltools_0.2.6  
-[5] rmarkdown_0.5.3.2 splines_3.1.3     tools_3.1.3       yaml_2.1.13      
+ [1] digest_0.6.8      evaluate_0.7      formatR_1.2      
+ [4] htmltools_0.2.6   magrittr_1.5      rmarkdown_0.5.3.2
+ [7] splines_3.1.3     stringi_0.4-1     tools_3.1.3      
+[10] yaml_2.1.13      
 \end{verbatim}
 
 \begin{verbatim}
