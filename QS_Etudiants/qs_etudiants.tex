@@ -117,7 +117,7 @@
 }
 \section{Questionnaire étudiant}\label{questionnaire-etudiant}
 
-Version du Mon May 4 20:50:55 2015
+Version du Wed May 6 15:38:55 2015
 
 \begin{verbatim}
  [1] "Etab"    "Etud"    "Q1"      "Q2.1"    "Q2.2"    "Q2.3"    "Q2.4"   
@@ -265,8 +265,8 @@ proportion & 84.23 & 14.52 & 1.24\\
 
 Sous forme de tableau avec \textbf{xtable}:
 
-\% latex table generated in R 3.1.3 by xtable 1.7-4 package \% Mon May 4
-20:51:00 2015
+\% latex table generated in R 3.1.3 by xtable 1.7-4 package \% Wed May 6
+15:39:00 2015
 
 \begin{table}[ht]
 \centering
@@ -448,11 +448,29 @@ possibles)}\label{q3--quels-sont-les-outils-numeriques-que-vous-aviez-avec-vous-
 
 Colonnes 11 à 14
 
-\paragraph{téléphone portable
-classique}\label{telephone-portable-classique}
+4 types d'outils:
 
-colonnes 10: ():non, oui sur la table= ot, oui dans mon sac ou ma poche=
-osp
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  téléphone portable classique (tpc)
+\item
+  smartphone (sp)
+\item
+  tablette (tab)
+\item
+  ordinateur portable (ord)
+\end{itemize}
+
+ces outils sont-ils disponibles: non, oui, et si oui où:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  sur la table= ot
+\item
+  dans mon sac ou ma poche= osp
+\end{itemize}
 
 \begin{figure}[htbp]
 \centering
@@ -513,6 +531,210 @@ osp            58      4.0      4.8
 ot            510     35.3     42.0
 <NA>          233     16.1      0.0
   Total      1446    100.0    100.0
+\end{verbatim}
+
+Résultats:
+
+\begin{itemize}
+\item
+  ont un tpc: 300 (20.75 \%)
+\item
+  ont un smartphone: 1115 (77.11 \%)
+\item
+  ont un tpc ET un smartphone: 106 (7.33 \%)
+\item
+  ont un tpc OU un smartphone: 1309 (90.53 \%)
+\item
+  ont une tablette: 141 (9.75 \%)
+\item
+  ont un ordinateur portable: 568 (39.28 \%)
+\item
+  ont une tablette ET un ordinateur: 21 (1.45 \%)
+\item
+  ont une tablette OU un ordinateur: 688 (47.58 \%)
+\end{itemize}
+
+\subsubsection{selon la généation}\label{selon-la-geneation}
+
+\paragraph{portable classique}\label{portable-classique}
+
+\begin{verbatim}
+##      
+##         Z   Y   X
+##   non 299 495  46
+##   osp  36  77  47
+##   ot   34  90  11
+\end{verbatim}
+
+\begin{verbatim}
+##  non  oui NA's 
+##  855  300  291
+\end{verbatim}
+
+\begin{verbatim}
+##               génération
+## possède un tpc   Z   Y   X
+##            non 299 495  46
+##            oui  70 167  58
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  table(tpc, d1$GENERATION)
+## X-squared = 57.5993, df = 2, p-value = 3.108e-13
+\end{verbatim}
+
+\paragraph{smartphone}\label{smartphone}
+
+\begin{verbatim}
+##      
+##         Z   Y   X
+##   non  44 108  57
+##   osp 153 186  25
+##   ot  254 466  15
+\end{verbatim}
+
+\begin{verbatim}
+##  non  oui NA's 
+##  216 1115  115
+\end{verbatim}
+
+\begin{verbatim}
+##              génération
+## possède un sp   Z   Y   X
+##           non  44 108  57
+##           oui 407 652  40
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  table(sp, d1$GENERATION)
+## X-squared = 147.0316, df = 2, p-value < 2.2e-16
+\end{verbatim}
+
+\paragraph{tablette}\label{tablette}
+
+\begin{verbatim}
+##      
+##         Z   Y   X
+##   non 315 518  81
+##   osp   8  13   4
+##   ot   37  76   2
+\end{verbatim}
+
+\begin{verbatim}
+##  non  oui NA's 
+##  931  141  374
+\end{verbatim}
+
+\begin{verbatim}
+##               génération
+## possède un tab   Z   Y   X
+##            non 315 518  81
+##            oui  45  89   6
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  table(tab, d1$GENERATION)
+## X-squared = 4.2748, df = 2, p-value = 0.118
+\end{verbatim}
+
+Pas de différence entre les génération
+
+\paragraph{ordinateur}\label{ordinateur}
+
+\begin{verbatim}
+##      
+##         Z   Y   X
+##   non 189 374  68
+##   npn   0   0   1
+##   osp  15  38   3
+##   ot  202 278  21
+\end{verbatim}
+
+\begin{verbatim}
+##  non  oui NA's 
+##  645  568  233
+\end{verbatim}
+
+\begin{verbatim}
+##               génération
+## possède un ord   Z   Y   X
+##            non 189 374  69
+##            oui 217 316  24
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  table(ord, d1$GENERATION)
+## X-squared = 23.945, df = 2, p-value = 0.000006316
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "tableau attendu si H0 vraie"
+\end{verbatim}
+
+\begin{verbatim}
+##      
+## ord          Z       Y        X
+##   non 215.8049 366.762 49.43314
+##   oui 190.1951 323.238 43.56686
+\end{verbatim}
+
+\begin{verbatim}
+## [1] "différence observé - attendu"
+\end{verbatim}
+
+\begin{verbatim}
+##      
+## ord            Z          Y          X
+##   non -26.804878   7.238015  19.566863
+##   oui  26.804878  -7.238015 -19.566863
+\end{verbatim}
+
+\subsubsection{création d'une colonne moyens de
+COMmunication:}\label{creation-dune-colonne-moyens-de-communication}
+
+Possédez-vous un tpc ou un smartphone:
+
+\begin{verbatim}
+##  non  oui NA's 
+##   91 1312   43
+\end{verbatim}
+
+Selon la génération:
+
+\begin{verbatim}
+##    
+##     non oui
+##   Z  14 445
+##   Y  45 756
+##   X  27  91
+\end{verbatim}
+
+\begin{verbatim}
+##    
+##       non   oui
+##   Z  3.05 96.95
+##   Y  5.62 94.38
+##   X 22.88 77.12
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  Pearson's Chi-squared test
+## 
+## data:  table(d1$GENERATION, d1$COM)
+## X-squared = 64.3581, df = 2, p-value = 1.059e-14
 \end{verbatim}
 
 \subsection{Q4- Pendant ce cours (en dehors des temps de pause

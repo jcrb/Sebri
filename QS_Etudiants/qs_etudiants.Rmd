@@ -209,22 +209,168 @@ Q3- Quels sont les outils numériques que vous aviez avec vous pendant ce cours?
 ------------------------------------
 Colonnes 11 à 14
 
-#### téléphone portable classique
-colonnes 10: ():non, oui sur la table= ot,	oui dans mon sac ou ma poche= osp
+4 types d'outils:
+
+- téléphone portable classique (tpc)
+- smartphone (sp)
+- tablette (tab)
+- ordinateur portable (ord)
+
+ces outils sont-ils disponibles: non, oui, et si oui où: 
+
+- sur la table= ot
+- dans mon sac ou ma poche= osp
 
 ```{r outils, echo=FALSE, comment=""}
 # portable classique
 d1$Q3.1tpc[d1$Q3.1tpc == "na"] <- NA
 tab1(d1$Q3.1tpc, main = "Téléphone portable classique", ylab = "Fréquence")
+tpc <- d1$Q3.1tpc[d1$Q3.1tpc %in% c("osp","ot")] # nb etudiants ayant un tpc
+n.tpc <- length(tpc)
+
 # Smartphone
 tab1(d1$Q3.2sp, main = "Smartphone", ylab = "Fréquence")
+sp <- d1$Q3.2sp[d1$Q3.2sp %in% c("osp","ot")] # nb étudiants ayant un smartphone
+n.sp <- length(sp)
+
 # Tablette
 tab1(d1$Q3.3tab, main = "Tablette", ylab = "Fréquence")
+tab <- d1$Q3.3tab[d1$Q3.3tab %in% c("osp","ot")] # nb étudiants ayant une tablette
+n.tab <- length(tab)
+
 # ordinateur
 tab1(d1$Q3.4ord, main = "Ordinateur", ylab = "Fréquence")
+ord <- d1$Q3.4ord[d1$Q3.4ord %in% c("osp","ot")]# nb étudiants ayant un ordi portable
+n.ord <- length(ord)
+
+# on peut scinder les outils en deux catégories: 
+# - outils de communication: tpc  et sp
+# - outil informatique: portables et tablettes
+
+# déclarent avoir tpc ET sp:
+com <- d1[d1$Q3.1tpc %in% c("osp","ot") & d1$Q3.2sp %in% c("osp","ot"),]
+n.com <- nrow(com)
+# déclarent avoir tpc OU sp:
+com2 <- d1[d1$Q3.1tpc %in% c("osp","ot") | d1$Q3.2sp %in% c("osp","ot"),]
+n.com2 <- nrow(com2)
+# déclarent avoir ordi ET tablette
+oi <- d1[d1$Q3.3tab %in% c("osp","ot") & d1$Q3.4ord %in% c("osp","ot"),]
+n.oi <- nrow(oi)
+# # déclarent avoir ordi OU tablette
+oi2 <- d1[d1$Q3.3tab %in% c("osp","ot") | d1$Q3.4ord %in% c("osp","ot"),]
+n.oi2 <- nrow(oi2)
+
+n <- nrow(d1)
+
+# n'ont ni tcp ni sp
+com.na <- d1[is.na(d1$Q3.1tpc) & is.na(d1$Q3.2sp),]
+n.com.na <- nrow(com.na)
+
+```
+ Résultats:
+ 
+ - ont un tpc: `r n.tpc` (`r round(n.tpc*100/n, 2)` %)
+ - ont un smartphone: `r n.sp` (`r round(n.sp*100/n, 2)` %)
+ - ont un tpc ET un smartphone: `r n.com` (`r round(n.com*100/n, 2)` %)
+ - ont un tpc OU un smartphone: `r n.com2` (`r round(n.com2*100/n, 2)` %)
+ 
+ - ont une tablette: `r n.tab` (`r round(n.tab*100/n, 2)` %)
+ - ont un ordinateur portable: `r n.ord` (`r round(n.ord*100/n, 2)` %)
+ - ont une tablette ET un ordinateur: `r n.oi` (`r round(n.oi*100/n, 2)` %)
+ - ont une tablette OU un ordinateur: `r n.oi2` (`r round(n.oi2*100/n, 2)` %)
+
+### selon la généation
+
+#### portable classique
+```{r tpc_gene, echo=FALSE}
+table(d1$Q3.1tpc, d1$GENERATION)
+
+# on combine les réponses oui
+tpc <- d1$Q3.1tpc
+tpc[tpc == "osp" | tpc == "ot"] <- "oui"
+tpc <- as.factor(tpc)
+summary(tpc)
+table(tpc, d1$GENERATION, dnn = c("possède un tpc","génération"))
+
+chisq.test(table(tpc, d1$GENERATION))
 
 ```
 
+#### smartphone
+```{r sp_gene, echo=FALSE}
+table(d1$Q3.2sp, d1$GENERATION)
+
+# on combine les réponses oui
+sp <- d1$Q3.2sp
+sp[sp == "osp" | sp == "ot"] <- "oui"
+sp <- as.factor(sp)
+summary(sp)
+table(sp, d1$GENERATION, dnn = c("possède un sp","génération"))
+
+chisq.test(table(sp, d1$GENERATION))
+```
+
+#### tablette
+```{r tab_gene, echo=FALSE}
+table(d1$Q3.3tab, d1$GENERATION)
+
+# on combine les réponses oui
+tab <- d1$Q3.3tab
+tab[tab == "osp" | tab == "ot"] <- "oui"
+tab <- as.factor(tab)
+summary(tab)
+table(tab, d1$GENERATION, dnn = c("possède un tab","génération"))
+
+chisq.test(table(tab, d1$GENERATION))
+```
+Pas de différence entre les génération
+
+#### ordinateur
+```{r ord_gene, echo=FALSE}
+table(d1$Q3.4ord, d1$GENERATION)
+
+# on combine les réponses oui
+ord <- d1$Q3.4ord
+ord[ord == "osp" | ord == "ot"] <- "oui"
+ord[ord == "npn"] <- "non" # corrige erruer de frappe
+ord <- as.factor(ord)
+summary(ord)
+table(ord, d1$GENERATION, dnn = c("possède un ord","génération"))
+
+r <- chisq.test(table(ord, d1$GENERATION))
+r
+print("tableau attendu si H0 vraie")
+r$expected # tableau attendu si H0 vraie
+print("différence observé - attendu")
+table(ord, d1$GENERATION) - r$expected # différence observé et attendu
+
+```
+
+
+
+ 
+### création d'une colonne moyens de COMmunication:
+```{r com, echo=FALSE}
+d1$COM <- ""
+d1$COM[is.na(d1$Q3.1tpc) & is.na(d1$Q3.2sp)] <- NA
+d1$COM[d1$Q3.1tpc == "non" & d1$Q3.2sp == "non"] <- "non"
+d1$COM[!is.na(d1$COM) & d1$COM != "non"] <- "oui"
+d1$COM <- as.factor(d1$COM)
+```
+Possédez-vous un tpc ou un smartphone:
+```{r tpc_smart, echo=FALSE}
+summary(d1$COM)
+```
+
+Selon la génération:
+```{r tpc_generartion, echo=FALSE}
+t <- table(d1$GENERATION, d1$COM)
+t
+round(prop.table(t, 1) * 100, 2)
+
+chisq.test(table(d1$GENERATION, d1$COM))
+```
+ 
 Q4- Pendant ce cours (en dehors des temps de pause éventuels), vous avez utilisé votre téléphone pour (plusieurs réponses possibles):
 ----------------------------------------------
 question 15 à 30
