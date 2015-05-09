@@ -256,7 +256,7 @@ n.com2 <- nrow(com2)
 # déclarent avoir ordi ET tablette
 oi <- d1[d1$Q3.3tab %in% c("osp","ot") & d1$Q3.4ord %in% c("osp","ot"),]
 n.oi <- nrow(oi)
-# # déclarent avoir ordi OU tablette
+# déclarent avoir ordi OU tablette
 oi2 <- d1[d1$Q3.3tab %in% c("osp","ot") | d1$Q3.4ord %in% c("osp","ot"),]
 n.oi2 <- nrow(oi2)
 
@@ -266,6 +266,9 @@ n <- nrow(d1)
 com.na <- d1[is.na(d1$Q3.1tpc) & is.na(d1$Q3.2sp),]
 n.com.na <- nrow(com.na)
 
+# ont un ordi ET un sp
+ordi.sp <- d1[d1$Q3.2sp %in% c("osp","ot") & d1$Q3.4ord %in% c("osp","ot"),]
+n.ordi.sp <- nrow(ordi.sp)
 ```
  Résultats:
  
@@ -278,6 +281,8 @@ n.com.na <- nrow(com.na)
  - ont un ordinateur portable: `r n.ord` (`r round(n.ord*100/n, 2)` %)
  - ont une tablette ET un ordinateur: `r n.oi` (`r round(n.oi*100/n, 2)` %)
  - ont une tablette OU un ordinateur: `r n.oi2` (`r round(n.oi2*100/n, 2)` %)
+ 
+ - ont un ordinateur ET un smartphone: `r n.ordi.sp` (`r round(n.ordi.sp*100/n, 2)` %)
 
 ### selon la généation
 

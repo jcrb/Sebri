@@ -16,3 +16,15 @@ factor2table <- function(x, col = NULL, digit = 2){
         colnames(t.x) <- col
     return(t.x)
 }
+
+# création d'une colonne outils de communication
+
+outil.com <- function(){
+    d1$COM <- ""
+    if(is.na(d1$Q3.1tpc) & is.na(d1$Q3.2sp))
+        d1$COM <- NA
+    else if(d1$Q3.1tpc == "non" & d1$Q3.2sp == "non")
+        d1$COM <- "non"
+    else
+        d1$COM <- "oui"
+}
