@@ -418,7 +418,7 @@ question 15 à 30
 d1 <- read.csv(paste0(path, file1), skip = 1, stringsAsFactors = FALSE)
 
 q4 <- d1[, c(15:26, 28:30)]
-q4 <- as.data.frame(sapply(q4,gsub,pattern="NR",replacement="NA"), , stringsAsFactors = FALSE)
+q4 <- as.data.frame(sapply(q4,gsub,pattern="NR",replacement="NA"), stringsAsFactors = FALSE)
 q4 <- as.data.frame(sapply(q4, as.integer))
 a <- apply(q4,2,sum, na.rm = TRUE)
 x <- barplot(sort(a, decreasing = TRUE), las = 2, main = "Utilisation du téléphone pendant le cours")
@@ -501,6 +501,77 @@ question 50
 
 ```{r utilisation4, echo=FALSE, comment=""}
 tab1(as.factor(d1$Q9), main = "Fréquence d'utilisation du téléphone pendant le cours\n pour faire autre chose", ylab = "fréquence", sort.group = "decreasing")
+
+```
+
+Questions supplémentaires
+=========================
+-          Est-ce que les comportements concernant en particulier la prise de notes étaient différents lorsque les étudiants n’avaient pas de support et savaient qu’ils ne l’auraient jamais à autrement dit, est-ce que l’utilisation des outils numériques est modifiée selon que les étudiants aient ou non accès à un support de cours ?
+comparaison de la population (HUS 1, E1, C2, C3, B1, B2) avec (Sa1, SV1 SV2, H1 H2, HUS 2 HUS 3, C1,) sur Q4 et Q7 
+Est-ce possible .? 
+ 
+ 
+-          Est-ce que le fait d’avoir accès à la WIFI modifie l’usage de l’ordinateur ou de la tablette, et en particulier leur usage à des fins ne relevant pas de l’apprentissage en lien avec le cours
+comparaison des étudiants ayant répondu ot ou osp à tablette et ordi et appartenant d'un côté au group (SV1 sv2 Sa1 M1 M2 E1 B1 et B2) par rapport au groupe ( HUS1 HUS 2 HUS3 H1 H2 C1 C2C3 ) sur la question 7
+
+-          Est-ce que ceux qui avaient leur téléphone ou leur smartphone sur la table l’ont plus utilisé que ceux qui l’avaient dans leur sac, et pour faire quoi ?
+quelque soit la génération 
+Résultats selon la promotion
+============================
+On crée une variable supplémentaire PROMO:
+```{r create_promo, echo=FALSE}
+d1$PROMO <- NA
+d1$PROMO[d1$Etab %in% c("Sa1", "SV2", "HUS2" , "C3", "H2", "B1", "M2")] <- "p3"
+d1$PROMO[d1$Etab %in% c("HUS1", "SV1", "C2", "B2", "M1")] <- "p1"
+d1$PROMO[d1$Etab %in% c("HUS3", "H1", "E1", "C1")] <- "p2"
+s.promo <- summary(as.factor(d1$PROMO)) # nombre d'étudiants par promotion
+s.promo
+```
+p = propmotion, chiffre = année
+
+Comparaison 1ère année (S1 + S2), 2ème année (S3 + S4), 3ème année (S5 + S6) 
+comparaison de la population( HUS1, SV1, C2, B2, et M1) avec (HUS3, H1, E1, C1) avec (Sa1, SV2, HUS2 , C3, H2, B1et M2) sur Q4 et Q7.
+
+Question Q4
+-----------
+```{r}
+q4 <- d1[, c(15:26, 28:30, 52:53)]
+q4 <- data.frame(sapply(q4,gsub,pattern="NR",replacement="NA"), stringsAsFactors = FALSE)
+q4[,1:15] <- sapply(q4[,1:15], as.integer)
+for(i in 1:15){x <- tapply(q4[,i], q4$PROMO, sum, na.rm = TRUE); if(i == 1){y = x} else {y = rbind(y, x)}}
+rownames(y) <- names(q4[1:15])
+y
+```
+
+suite: comparaison des 3 groupes pour chaque sous-question par test chi2 après transformation des NA en '0'.
+```{r}
+q1 <- q4$Q4.1
+q1[is.na(q1)] <- 0
+summary(as.factor(q1))
+table(q1, q4$PROMO)
+chisq.test(table(q1, q4$PROMO))
+c <- chisq.test(table(q1, q4$PROMO))
+c$observed
+c$expected
+```
+Alternative
+```{r}
+prop.test(t(table(q1, q4$PROMO)))
+
+```
+
+Pour l'ensemble de la série
+```{r}
+for(i in 1:15){q<-q4[,i];q[is.na(q)] <- 0;c <- chisq.test(table(q, q4$PROMO)); print(names(q4[i])); print(c)}
+
+```
+
+
+Modèle plus complexe (utilité ?). [Référence](http://cran.r-project.org/doc/contrib/Herve-Aide-memoire-statistique.pdf) fiche 61 et 62.  
+```{r}
+f <- glm(q1 ~ q4$PROMO, family = "binomial")
+f
+summary(f)
 
 ```
 
