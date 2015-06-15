@@ -28,3 +28,15 @@ outil.com <- function(){
     else
         d1$COM <- "oui"
 }
+
+# Automatisation du test du chi2 appliqué à toutres les sous questions d'une question principale
+# I.E pour les questions 4 et 7 et 3 groupes
+
+chi2multiple <- function(){
+    for(i in 1:15){
+        q<-q4[,i]
+        q[is.na(q)] <- 0
+        c <- chisq.test(table(q, q4$PROMO))
+        print(names(q4[i]))
+        print(c)}
+}

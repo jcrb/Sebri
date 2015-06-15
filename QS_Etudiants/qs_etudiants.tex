@@ -115,7 +115,7 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-Version du: \textbf{Tue May 12 16:48:10 2015}
+Version du: \textbf{Sun Jun 14 19:44:25 2015}
 
 \section{Questionnaire étudiant}\label{questionnaire-etudiant}
 
@@ -265,8 +265,8 @@ proportion & 84.23 & 14.52 & 1.24\\
 
 Sous forme de tableau avec \textbf{xtable}:
 
-\% latex table generated in R 3.1.3 by xtable 1.7-4 package \% Tue May
-12 16:48:14 2015
+\% latex table generated in R 3.1.3 by xtable 1.7-4 package \% Sun Jun
+14 19:44:30 2015
 
 \begin{table}[ht]
 \centering
@@ -543,8 +543,8 @@ ot            510     35.3     42.0
   table \ref{lab.tnr} pp \pageref{lab.tnr}
 \end{itemize}
 
-\% latex table generated in R 3.1.3 by xtable 1.7-4 package \% Tue May
-12 16:48:22 2015
+\% latex table generated in R 3.1.3 by xtable 1.7-4 package \% Sun Jun
+14 19:44:39 2015
 
 \begin{table}[ht]
 \centering
@@ -788,7 +788,7 @@ question 15 à 30
 \NormalTok{d1 <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\KeywordTok{paste0}\NormalTok{(path, file1), }\DataTypeTok{skip =} \DecValTok{1}\NormalTok{, }\DataTypeTok{stringsAsFactors =} \OtherTok{FALSE}\NormalTok{)}
 
 \NormalTok{q4 <-}\StringTok{ }\NormalTok{d1[, }\KeywordTok{c}\NormalTok{(}\DecValTok{15}\NormalTok{:}\DecValTok{26}\NormalTok{, }\DecValTok{28}\NormalTok{:}\DecValTok{30}\NormalTok{)]}
-\NormalTok{q4 <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{sapply}\NormalTok{(q4,gsub,}\DataTypeTok{pattern=}\StringTok{"NR"}\NormalTok{,}\DataTypeTok{replacement=}\StringTok{"NA"}\NormalTok{), , }\DataTypeTok{stringsAsFactors =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{q4 <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{sapply}\NormalTok{(q4,gsub,}\DataTypeTok{pattern=}\StringTok{"NR"}\NormalTok{,}\DataTypeTok{replacement=}\StringTok{"NA"}\NormalTok{), }\DataTypeTok{stringsAsFactors =} \OtherTok{FALSE}\NormalTok{)}
 \NormalTok{q4 <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{sapply}\NormalTok{(q4, as.integer))}
 \NormalTok{a <-}\StringTok{ }\KeywordTok{apply}\NormalTok{(q4,}\DecValTok{2}\NormalTok{,sum, }\DataTypeTok{na.rm =} \OtherTok{TRUE}\NormalTok{)}
 \NormalTok{x <-}\StringTok{ }\KeywordTok{barplot}\NormalTok{(}\KeywordTok{sort}\NormalTok{(a, }\DataTypeTok{decreasing =} \OtherTok{TRUE}\NormalTok{), }\DataTypeTok{las =} \DecValTok{2}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Utilisation du téléphone pendant le cours"}\NormalTok{)}
@@ -975,6 +975,690 @@ tt             34      2.4      4.0
 nvp            19      1.3      2.2
 jnsp            2      0.1      0.2
   Total      1446    100.0    100.0
+\end{verbatim}
+
+\section{Questions supplémentaires}\label{questions-supplementaires}
+
+\begin{itemize}
+\item
+  Est-ce que les comportements concernant en particulier la prise de
+  notes étaient différents lorsque les étudiants n'avaient pas de
+  support et savaient qu'ils ne l'auraient jamais à autrement dit,
+  est-ce que l'utilisation des outils numériques est modifiée selon que
+  les étudiants aient ou non accès à un support de cours ? comparaison
+  de la population (HUS 1, E1, C2, C3, B1, B2) avec (Sa1, SV1 SV2, H1
+  H2, HUS 2 HUS 3, C1,) sur Q4 et Q7 Est-ce possible .?
+\item
+  Est-ce que le fait d'avoir accès à la WIFI modifie l'usage de
+  l'ordinateur ou de la tablette, et en particulier leur usage à des
+  fins ne relevant pas de l'apprentissage en lien avec le cours
+  comparaison des étudiants ayant répondu ot ou osp à tablette et ordi
+  et appartenant d'un côté au group (SV1 sv2 Sa1 M1 M2 E1 B1 et B2) par
+  rapport au groupe ( HUS1 HUS 2 HUS3 H1 H2 C1 C2C3 ) sur la question 7
+\item
+  Est-ce que ceux qui avaient leur téléphone ou leur smartphone sur la
+  table l'ont plus utilisé que ceux qui l'avaient dans leur sac, et pour
+  faire quoi ? quelque soit la génération
+\end{itemize}
+
+\section{Résultats selon la
+promotion}\label{resultats-selon-la-promotion}
+
+On crée une variable supplémentaire PROMO:
+
+\begin{verbatim}
+##  p1  p2  p3 
+## 568 365 513
+\end{verbatim}
+
+p = propmotion, chiffre = année
+
+Comparaison 1ère année (S1 + S2), 2ème année (S3 + S4), 3ème année (S5 +
+S6) comparaison de la population( HUS1, SV1, C2, B2, et M1) avec (HUS3,
+H1, E1, C1) avec (Sa1, SV2, HUS2 , C3, H2, B1et M2) sur Q4 et Q7.
+
+\subsection{Question Q4}\label{question-q4}
+
+La queestion 4 comporte 16 sous questions dichotomiques, correspondant
+aux colonnes 15 à 30. Il faut éliminer la colonne 27 qui contient du
+texte libre. Enfin on ajoute les colonnes 52 (age) et 53 (promotion)
+pour une analyse en sous-groupes. Au final le dataframe q4 comporte 15
+colonnes dichotomiqes + 2 colonnes servant à fabriquer des sous-groupes.
+
+\begin{verbatim}
+       p1  p2  p3
+Q4.1   83  45  68
+Q4.2   80  53 137
+Q4.3   13   6   6
+Q4.4  340 162 326
+Q4.5  125  51 200
+Q4.6    3   1   1
+Q4.7   13   7  13
+Q4.8  101  51 120
+Q4.9   28  15  19
+Q4.10  79  44 104
+Q4.11  36   8  20
+Q4.12 144  62 124
+Q4.14 132 125  83
+Q4.15  22  27  18
+Q4.16   6   2   0
+\end{verbatim}
+
+suite: comparaison des 3 groupes pour chaque sous-question par test chi2
+après transformation des NA en `0'.
+
+\begin{verbatim}
+   0    1 
+1250  196 
+\end{verbatim}
+
+\begin{verbatim}
+   
+q    p1  p2  p3
+  0 485 320 445
+  1  83  45  68
+\end{verbatim}
+
+\begin{verbatim}
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 1.05, df = 2, p-value = 0.5916
+\end{verbatim}
+
+\begin{verbatim}
+   
+q    p1  p2  p3
+  0 485 320 445
+  1  83  45  68
+\end{verbatim}
+
+\begin{verbatim}
+   
+q          p1        p2        p3
+  0 491.00968 315.52559 443.46473
+  1  76.99032  49.47441  69.53527
+\end{verbatim}
+
+Alternative avec le test \textbf{prop.test}. La ligne \emph{sample
+estimate} donne la proportion de `non' dans chaque promotion.
+
+\begin{verbatim}
+
+    3-sample test for equality of proportions without continuity
+    correction
+
+data:  t(table(q, q4$PROMO))
+X-squared = 1.05, df = 2, p-value = 0.5916
+alternative hypothesis: two.sided
+sample estimates:
+   prop 1    prop 2    prop 3 
+0.8538732 0.8767123 0.8674464 
+\end{verbatim}
+
+A la question \emph{chercher sur internet des informations qui me
+manquaient au sujet du cours}, il n'y a pas de différence de
+comportement entre les propmotions.
+
+Pour chacune des 15 sous-questions on compare les réponses de 3
+promotions par un test du chi2. Si \textbf{p-value} est supérieur à
+0.05, alors il n'y a pas de différence de comportement entre les
+promotions pour cette sous-question. Dans la cas contraire, au moins une
+promotion ne se comporte pas comme les autres:
+
+\begin{verbatim}
+[1] "Q4.1"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 1.05, df = 2, p-value = 0.5916
+
+[1] "Q4.2"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 33.8167, df = 2, p-value = 0.00000004537
+
+[1] "Q4.3"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 2.0079, df = 2, p-value = 0.3664
+
+[1] "Q4.4"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 34.5843, df = 2, p-value = 0.00000003091
+
+[1] "Q4.5"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 77.1108, df = 2, p-value < 2.2e-16
+\end{verbatim}
+
+\begin{verbatim}
+Warning in chisq.test(table(q, q4$PROMO)): Chi-squared approximation may be
+incorrect
+\end{verbatim}
+
+\begin{verbatim}
+[1] "Q4.6"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 0.9417, df = 2, p-value = 0.6245
+
+[1] "Q4.7"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 0.3634, df = 2, p-value = 0.8338
+
+[1] "Q4.8"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 13.0376, df = 2, p-value = 0.001475
+
+[1] "Q4.9"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 1.0248, df = 2, p-value = 0.5991
+
+[1] "Q4.10"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 13.1483, df = 2, p-value = 0.001396
+
+[1] "Q4.11"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 9.5534, df = 2, p-value = 0.008424
+
+[1] "Q4.12"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 9.6521, df = 2, p-value = 0.008018
+
+[1] "Q4.14"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 38.7471, df = 2, p-value = 0.000000003856
+
+[1] "Q4.15"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 8.521, df = 2, p-value = 0.01411
+\end{verbatim}
+
+\begin{verbatim}
+Warning in chisq.test(table(q, q4$PROMO)): Chi-squared approximation may be
+incorrect
+\end{verbatim}
+
+\begin{verbatim}
+[1] "Q4.16"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q4$PROMO)
+X-squared = 5.4671, df = 2, p-value = 0.06499
+\end{verbatim}
+
+Même analyse en utilisant le \textbf{test exact de Fisher} qui donne un
+résultat plus précis que la chi2 en cas d'effectifs faibles:
+
+\begin{verbatim}
+[1] "Q4.1"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value = 0.6038
+alternative hypothesis: two.sided
+
+[1] "Q4.2"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value = 0.00000008304
+alternative hypothesis: two.sided
+
+[1] "Q4.3"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value = 0.3576
+alternative hypothesis: two.sided
+
+[1] "Q4.4"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value = 0.00000003458
+alternative hypothesis: two.sided
+
+[1] "Q4.5"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value < 2.2e-16
+alternative hypothesis: two.sided
+
+[1] "Q4.6"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value = 0.8525
+alternative hypothesis: two.sided
+
+[1] "Q4.7"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value = 0.8561
+alternative hypothesis: two.sided
+
+[1] "Q4.8"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value = 0.001524
+alternative hypothesis: two.sided
+
+[1] "Q4.9"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value = 0.6171
+alternative hypothesis: two.sided
+
+[1] "Q4.10"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value = 0.00164
+alternative hypothesis: two.sided
+
+[1] "Q4.11"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value = 0.007551
+alternative hypothesis: two.sided
+
+[1] "Q4.12"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value = 0.006745
+alternative hypothesis: two.sided
+
+[1] "Q4.14"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value = 0.000000005307
+alternative hypothesis: two.sided
+
+[1] "Q4.15"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value = 0.01968
+alternative hypothesis: two.sided
+
+[1] "Q4.16"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q4$PROMO)
+p-value = 0.04104
+alternative hypothesis: two.sided
+\end{verbatim}
+
+\textbf{Ne pas tenir compte de cette remarque}
+
+Modèle plus complexe (utilité ?).
+\href{http://cran.r-project.org/doc/contrib/Herve-Aide-memoire-statistique.pdf}{Référence}
+fiche 61 et 62.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# f <- glm(q1 ~ q4$PROMO, family = "binomial")}
+\CommentTok{# f}
+\CommentTok{# summary(f)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Question Q7}\label{question-q7}
+
+La question 7 comporte 15 sous questions de Q7.1 à Q7.16 (colonnes 33 à
+48). On retire la colonne 13 qui est du texte libre. On ajoutebla
+colonne PROMO (promotion) pour l'analyse en sous-groupe.
+
+\begin{verbatim}
+       p1  p2  p3
+Q7.1   22  18  23
+Q7.2   19  10  26
+Q7.3   13   6  20
+Q7.4   25   7  38
+Q7.5    0   2   5
+Q7.6    3   1   1
+Q7.7   17   6  19
+Q7.8    2   2   1
+Q7.9   22   6  14
+Q7.10  24  30  37
+Q7.11 191  89  88
+Q7.12  28  18   7
+Q7.14  86  72  76
+Q7.15 252 129 259
+Q7.16   9   4   1
+\end{verbatim}
+
+\textbf{REMARQUE}: les lignes pour lesquelles un des effectif est
+inférieur à 5 donnent des résultats douteux au test du chi2.
+
+Pour chacune des 15 sous-questions on compare les réponses de 3
+promotions par un test du chi2. Si \textbf{p-value} est supérieur à
+0.05, alors il n'y a pas de différence de comportement entre les
+promotions pour cette sous-question. Dans la cas contraire, au moins une
+promotion ne se comporte pas comme les autres:
+
+\begin{verbatim}
+[1] "Q7.1"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 0.6278, df = 2, p-value = 0.7306
+
+[1] "Q7.2"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 3.6977, df = 2, p-value = 0.1574
+
+[1] "Q7.3"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 4.7259, df = 2, p-value = 0.09414
+
+[1] "Q7.4"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 14.3437, df = 2, p-value = 0.0007679
+\end{verbatim}
+
+\begin{verbatim}
+Warning in chisq.test(table(q, q7$PROMO)): Chi-squared approximation may be
+incorrect
+\end{verbatim}
+
+\begin{verbatim}
+[1] "Q7.5"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 5.3566, df = 2, p-value = 0.06868
+\end{verbatim}
+
+\begin{verbatim}
+Warning in chisq.test(table(q, q7$PROMO)): Chi-squared approximation may be
+incorrect
+\end{verbatim}
+
+\begin{verbatim}
+[1] "Q7.6"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 0.9417, df = 2, p-value = 0.6245
+
+[1] "Q7.7"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 3.2345, df = 2, p-value = 0.1984
+\end{verbatim}
+
+\begin{verbatim}
+Warning in chisq.test(table(q, q7$PROMO)): Chi-squared approximation may be
+incorrect
+\end{verbatim}
+
+\begin{verbatim}
+[1] "Q7.8"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 0.7723, df = 2, p-value = 0.6797
+
+[1] "Q7.9"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 4.003, df = 2, p-value = 0.1351
+
+[1] "Q7.10"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 7.1495, df = 2, p-value = 0.02802
+
+[1] "Q7.11"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 38.8441, df = 2, p-value = 0.000000003674
+
+[1] "Q7.12"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 11.9195, df = 2, p-value = 0.002581
+
+[1] "Q7.14"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 4.5408, df = 2, p-value = 0.1033
+
+[1] "Q7.15"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 19.8318, df = 2, p-value = 0.00004938
+\end{verbatim}
+
+\begin{verbatim}
+Warning in chisq.test(table(q, q7$PROMO)): Chi-squared approximation may be
+incorrect
+\end{verbatim}
+
+\begin{verbatim}
+[1] "Q7.16"
+
+    Pearson's Chi-squared test
+
+data:  table(q, q7$PROMO)
+X-squared = 5.5114, df = 2, p-value = 0.06356
+\end{verbatim}
+
+Même analyse en utilisant le \textbf{test exact de Fisher} qui donne un
+résultat plus précis que la chi2 en cas d'effectifs faibles:
+
+\begin{verbatim}
+[1] "Q7.1"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.7252
+alternative hypothesis: two.sided
+
+[1] "Q7.2"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.1851
+alternative hypothesis: two.sided
+
+[1] "Q7.3"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.11
+alternative hypothesis: two.sided
+
+[1] "Q7.4"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.000556
+alternative hypothesis: two.sided
+
+[1] "Q7.5"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.04439
+alternative hypothesis: two.sided
+
+[1] "Q7.6"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.8525
+alternative hypothesis: two.sided
+
+[1] "Q7.7"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.193
+alternative hypothesis: two.sided
+
+[1] "Q7.8"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.7437
+alternative hypothesis: two.sided
+
+[1] "Q7.9"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.1436
+alternative hypothesis: two.sided
+
+[1] "Q7.10"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.02268
+alternative hypothesis: two.sided
+
+[1] "Q7.11"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.000000003063
+alternative hypothesis: two.sided
+
+[1] "Q7.12"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.001148
+alternative hypothesis: two.sided
+
+[1] "Q7.14"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.1091
+alternative hypothesis: two.sided
+
+[1] "Q7.15"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.00004577
+alternative hypothesis: two.sided
+
+[1] "Q7.16"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.04678
+alternative hypothesis: two.sided
 \end{verbatim}
 
 \section{Information de session}\label{information-de-session}

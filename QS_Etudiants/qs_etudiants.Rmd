@@ -516,6 +516,7 @@ comparaison des étudiants ayant répondu ot ou osp à tablette et ordi et appar
 
 -          Est-ce que ceux qui avaient leur téléphone ou leur smartphone sur la table l’ont plus utilisé que ceux qui l’avaient dans leur sac, et pour faire quoi ?
 quelque soit la génération 
+
 Résultats selon la promotion
 ============================
 On crée une variable supplémentaire PROMO:
@@ -534,44 +535,90 @@ comparaison de la population( HUS1, SV1, C2, B2, et M1) avec (HUS3, H1, E1, C1) 
 
 Question Q4
 -----------
-```{r}
+La queestion 4 comporte 16 sous questions dichotomiques, correspondant aux colonnes 15 à 30. Il faut éliminer la colonne 27 qui contient du texte libre. Enfin on ajoute les colonnes 52 (age) et 53 (promotion) pour une analyse en sous-groupes. Au final le dataframe q4 comporte 15 colonnes dichotomiqes + 2 colonnes servant à fabriquer des sous-groupes.
+
+```{r Q4_2, echo=FALSE, comment=""}
 q4 <- d1[, c(15:26, 28:30, 52:53)]
+# on remplace les NR par NA
 q4 <- data.frame(sapply(q4,gsub,pattern="NR",replacement="NA"), stringsAsFactors = FALSE)
+# on transforme les 15 prmières colonnes en entier
 q4[,1:15] <- sapply(q4[,1:15], as.integer)
+# Pour chaque colonne (1 à 15) on forme 3 sous-groupes en fonction dela promotion. Pour chaque sous-groupe on forme la somme des 'oui' (1). On obtient ainsi pour chaque promotion,le nombre d'étudiants ayant répondu 'oui' à la sous question. On obtient via rbind, une matrice de 15 lignes et 3 colonnes, appelée y.
 for(i in 1:15){x <- tapply(q4[,i], q4$PROMO, sum, na.rm = TRUE); if(i == 1){y = x} else {y = rbind(y, x)}}
 rownames(y) <- names(q4[1:15])
 y
 ```
 
 suite: comparaison des 3 groupes pour chaque sous-question par test chi2 après transformation des NA en '0'.
-```{r}
-q1 <- q4$Q4.1
-q1[is.na(q1)] <- 0
-summary(as.factor(q1))
-table(q1, q4$PROMO)
-chisq.test(table(q1, q4$PROMO))
-c <- chisq.test(table(q1, q4$PROMO))
+```{r, echo=FALSE, comment=""}
+# sous question Q4.1
+q <- q4$Q4.1
+# transformation des NA en 0
+q[is.na(q)] <- 0
+# résumé: on a 1250 non et 196 oui 
+summary(as.factor(q))
+# répartition des réponses par promotion
+table(q, q4$PROMO)
+# test du chi2
+c <- chisq.test(table(q, q4$PROMO))
+c
+# réponses observées et réponse attendue sous l'hypothèse d'indépendance:
 c$observed
 c$expected
 ```
-Alternative
-```{r}
-prop.test(t(table(q1, q4$PROMO)))
-
+Alternative avec le test __prop.test__. La ligne _sample estimate_ donne la proportion de 'non' dans chaque promotion.
+```{r, echo=FALSE, comment=""}
+prop.test(t(table(q, q4$PROMO)))
 ```
+A la question _chercher sur internet des informations qui me manquaient au sujet du cours_, il n'y a pas de différence de comportement entre les propmotions.
 
-Pour l'ensemble de la série
-```{r}
+Pour chacune des 15 sous-questions on compare les réponses de 3 promotions par un test du chi2. Si __p-value__ est supérieur à 0.05, alors il n'y a pas de différence de comportement entre les promotions pour cette sous-question. Dans la cas contraire, au moins une promotion ne se comporte pas comme les autres:
+
+```{r q4Chi2, echo=FALSE, comment=""}
 for(i in 1:15){q<-q4[,i];q[is.na(q)] <- 0;c <- chisq.test(table(q, q4$PROMO)); print(names(q4[i])); print(c)}
 
 ```
 
+Même analyse en utilisant le __test exact de Fisher__ qui donne un résultat plus précis que la chi2 en cas d'effectifs faibles:
+```{r q4Fisher, echo=FALSE, comment=""}
+for(i in 1:15){q<-q4[,i];q[is.na(q)] <- 0;c <- fisher.test(table(q, q4$PROMO)); print(names(q4[i])); print(c)}
+```
+
+__Ne pas tenir compte de cette remarque__
 
 Modèle plus complexe (utilité ?). [Référence](http://cran.r-project.org/doc/contrib/Herve-Aide-memoire-statistique.pdf) fiche 61 et 62.  
 ```{r}
-f <- glm(q1 ~ q4$PROMO, family = "binomial")
-f
-summary(f)
+# f <- glm(q1 ~ q4$PROMO, family = "binomial")
+# f
+# summary(f)
+```
+
+Question Q7
+-----------
+La question 7 comporte 15 sous questions de Q7.1 à Q7.16 (colonnes 33 à 48). On retire la colonne 13 qui est du texte libre. On ajoutebla colonne PROMO (promotion) pour l'analyse en sous-groupe.
+
+```{r q7_2, echo=FALSE, comment=""}
+q7 <- d1[,c(33:48, 53)]
+q7 <- q7[, -13]
+
+# fonction de service
+naToZero <- function(x){ifelse(is.na(x), 0, x)}
+# tansformatio des NA
+q7[,1:15] <- apply(q7[,1:15], 2, naToZero)
+for(i in 1:15){x <- tapply(q7[,i], q7$PROMO, sum, na.rm = TRUE); if(i == 1){y = x} else {y = rbind(y, x)}}
+rownames(y) <- names(q7[1:15])
+y
+```
+__REMARQUE__: les lignes pour lesquelles un des effectif est inférieur à 5 donnent des résultats douteux au test du chi2.
+
+Pour chacune des 15 sous-questions on compare les réponses de 3 promotions par un test du chi2. Si __p-value__ est supérieur à 0.05, alors il n'y a pas de différence de comportement entre les promotions pour cette sous-question. Dans la cas contraire, au moins une promotion ne se comporte pas comme les autres:
+```{r q7Chi2, echo=FALSE, comment=""}
+for(i in 1:15){q<-q7[,i];q[is.na(q)] <- 0;c <- chisq.test(table(q, q7$PROMO)); print(names(q7[i])); print(c)}
+```
+
+Même analyse en utilisant le __test exact de Fisher__ qui donne un résultat plus précis que la chi2 en cas d'effectifs faibles:
+```{r q7Fisher, echo=FALSE, comment=""}
+for(i in 1:15){q<-q7[,i];q[is.na(q)] <- 0;c <- fisher.test(table(q, q7$PROMO)); print(names(q7[i])); print(c)}
 
 ```
 
