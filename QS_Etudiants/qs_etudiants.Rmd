@@ -510,12 +510,6 @@ Questions supplémentaires
 comparaison de la population (HUS 1, E1, C2, C3, B1, B2) avec (Sa1, SV1 SV2, H1 H2, HUS 2 HUS 3, C1,) sur Q4 et Q7 
 Est-ce possible .? 
  
- 
--          Est-ce que le fait d’avoir accès à la WIFI modifie l’usage de l’ordinateur ou de la tablette, et en particulier leur usage à des fins ne relevant pas de l’apprentissage en lien avec le cours
-comparaison des étudiants ayant répondu ot ou osp à tablette et ordi et appartenant d'un côté au group (SV1 sv2 Sa1 M1 M2 E1 B1 et B2) par rapport au groupe ( HUS1 HUS 2 HUS3 H1 H2 C1 C2C3 ) sur la question 7
-
--          Est-ce que ceux qui avaient leur téléphone ou leur smartphone sur la table l’ont plus utilisé que ceux qui l’avaient dans leur sac, et pour faire quoi ?
-quelque soit la génération 
 
 Résultats selon la promotion
 ============================
@@ -531,7 +525,7 @@ s.promo
 p = propmotion, chiffre = année
 
 Comparaison 1ère année (S1 + S2), 2ème année (S3 + S4), 3ème année (S5 + S6) 
-comparaison de la population( HUS1, SV1, C2, B2, et M1) avec (HUS3, H1, E1, C1) avec (Sa1, SV2, HUS2 , C3, H2, B1et M2) sur Q4 et Q7.
+comparaison de la population( HUS1, SV1, C2, B2, et M1) avec (HUS3, H1, E1, C1) avec (Sa1, SV2, HUS2 , C3, H2, B1 et M2) sur Q4 et Q7.
 
 Question Q4
 -----------
@@ -595,7 +589,7 @@ Modèle plus complexe (utilité ?). [Référence](http://cran.r-project.org/doc/
 
 Question Q7
 -----------
-La question 7 comporte 15 sous questions de Q7.1 à Q7.16 (colonnes 33 à 48). On retire la colonne 13 qui est du texte libre. On ajoutebla colonne PROMO (promotion) pour l'analyse en sous-groupe.
+La question 7 comporte 15 sous questions de Q7.1 à Q7.16 (colonnes 33 à 48). On retire la colonne 13 qui est du texte libre. On ajoute la colonne PROMO (promotion) pour l'analyse en sous-groupe.
 
 ```{r q7_2, echo=FALSE, comment=""}
 q7 <- d1[,c(33:48, 53)]
@@ -619,6 +613,62 @@ for(i in 1:15){q<-q7[,i];q[is.na(q)] <- 0;c <- chisq.test(table(q, q7$PROMO)); p
 Même analyse en utilisant le __test exact de Fisher__ qui donne un résultat plus précis que la chi2 en cas d'effectifs faibles:
 ```{r q7Fisher, echo=FALSE, comment=""}
 for(i in 1:15){q<-q7[,i];q[is.na(q)] <- 0;c <- fisher.test(table(q, q7$PROMO)); print(names(q7[i])); print(c)}
+
+```
+
+Accès WIFI
+==========
+Est-ce que le fait d’avoir accès à la WIFI modifie l’usage de l’ordinateur ou de la tablette, et en particulier leur usage à des fins ne relevant pas de l’apprentissage en lien avec le cours
+comparaison des étudiants ayant répondu ot ou osp à tablette et ordi et appartenant d'un côté au group (SV1 sv2 Sa1 M1 M2 E1 B1 et B2) par rapport au groupe ( HUS1 HUS 2 HUS3 H1 H2 C1 C2C3 ) sur la question 7
+
+```{r promo2, echo=FALSE}
+d1$PROMO2 <- NA
+d1$PROMO2[d1$Etab %in% c("SV1","SV2","Sa1","M1","M2","E1","B1","B2")] <- "Groupe1"
+d1$PROMO2[d1$Etab %in% c("HUS1", "HUS2", "HUS3", "H1", "H2", "C1", "C2", "C3")] <- "Groupe2"
+
+s.promo2 <- summary(as.factor(d1$PROMO2)) # nombre d'étudiants par promotion
+s.promo2
+```
+
+La question 7 comporte 15 sous questions de Q7.1 à Q7.16 (colonnes 33 à 48). On retire la colonne 13 qui est du texte libre. On ajoute la colonne PROMO2 (promotion) pour l'analyse en sous-groupe.
+
+```{r q7_2_2, echo=FALSE, comment=""}
+q7 <- d1[,c(33:48, 54)]
+q7 <- q7[, -13]
+
+# fonction de service
+naToZero <- function(x){ifelse(is.na(x), 0, x)}
+# tansformatio des NA
+q7[,1:15] <- apply(q7[,1:15], 2, naToZero)
+for(i in 1:15){x <- tapply(q7[,i], q7$PROMO, sum, na.rm = TRUE); if(i == 1){y = x} else {y = rbind(y, x)}}
+rownames(y) <- names(q7[1:15])
+y
+```
+__REMARQUE__: les lignes pour lesquelles un des effectif est inférieur à 5 donnent des résultats douteux au test du chi2.
+
+Pour chacune des 15 sous-questions on compare les réponses de 2 groupes par un test du chi2. Si __p-value__ est supérieur à 0.05, alors il n'y a pas de différence de comportement entre les promotions pour cette sous-question. Dans la cas contraire, au moins une promotion ne se comporte pas comme les autres:
+```{r q7bisChi2, echo=FALSE, comment=""}
+for(i in 1:15){q<-q7[,i];q[is.na(q)] <- 0;c <- chisq.test(table(q, q7$PROMO)); print(names(q7[i])); print(c)}
+```
+
+Même analyse en utilisant le __test exact de Fisher__ qui donne un résultat plus précis que la chi2 en cas d'effectifs faibles:
+```{r q7bisFisher, echo=FALSE, comment=""}
+for(i in 1:15){q<-q7[,i];q[is.na(q)] <- 0;c <- fisher.test(table(q, q7$PROMO)); print(names(q7[i])); print(c)}
+```
+
+________________________________________________________________________
+
+Est-ce que ceux qui avaient leur téléphone ou leur smartphone sur la table l’ont plus utilisé que ceux qui l’avaient dans leur sac, et pour faire quoi ?
+quelque soit la génération 
+
+Cela revient à croiser Q3 et Q4 qui comportent respectivement 4 et 16 sous question chacune ayant 2 à plusieurs modalités. Temps de travail 3 à 4 heures.
+```{r q37, echo=FALSE}
+# regroupe les colonnes 3 et 7
+q <- d1[, c(11:14,33:48)]
+# transforme les NA en non
+q$Q3.1tpc[is.na(q$Q3.1tpc)] <- "non"
+q$Q3.2sp[is.na(q$Q3.2sp)] <- "non"
+q$Q7.1 <- ifelse(is.na(q$Q7.1), "non", "oui")
 
 ```
 

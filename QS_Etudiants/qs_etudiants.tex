@@ -115,7 +115,7 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-Version du: \textbf{Sun Jun 14 19:44:25 2015}
+Version du: \textbf{Wed Jul 1 18:13:21 2015}
 
 \section{Questionnaire étudiant}\label{questionnaire-etudiant}
 
@@ -265,8 +265,8 @@ proportion & 84.23 & 14.52 & 1.24\\
 
 Sous forme de tableau avec \textbf{xtable}:
 
-\% latex table generated in R 3.1.3 by xtable 1.7-4 package \% Sun Jun
-14 19:44:30 2015
+\% latex table generated in R 3.1.3 by xtable 1.7-4 package \% Wed Jul 1
+18:13:25 2015
 
 \begin{table}[ht]
 \centering
@@ -543,8 +543,8 @@ ot            510     35.3     42.0
   table \ref{lab.tnr} pp \pageref{lab.tnr}
 \end{itemize}
 
-\% latex table generated in R 3.1.3 by xtable 1.7-4 package \% Sun Jun
-14 19:44:39 2015
+\% latex table generated in R 3.1.3 by xtable 1.7-4 package \% Wed Jul 1
+18:13:33 2015
 
 \begin{table}[ht]
 \centering
@@ -980,6 +980,7 @@ jnsp            2      0.1      0.2
 \section{Questions supplémentaires}\label{questions-supplementaires}
 
 \begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
 \item
   Est-ce que les comportements concernant en particulier la prise de
   notes étaient différents lorsque les étudiants n'avaient pas de
@@ -988,17 +989,6 @@ jnsp            2      0.1      0.2
   les étudiants aient ou non accès à un support de cours ? comparaison
   de la population (HUS 1, E1, C2, C3, B1, B2) avec (Sa1, SV1 SV2, H1
   H2, HUS 2 HUS 3, C1,) sur Q4 et Q7 Est-ce possible .?
-\item
-  Est-ce que le fait d'avoir accès à la WIFI modifie l'usage de
-  l'ordinateur ou de la tablette, et en particulier leur usage à des
-  fins ne relevant pas de l'apprentissage en lien avec le cours
-  comparaison des étudiants ayant répondu ot ou osp à tablette et ordi
-  et appartenant d'un côté au group (SV1 sv2 Sa1 M1 M2 E1 B1 et B2) par
-  rapport au groupe ( HUS1 HUS 2 HUS3 H1 H2 C1 C2C3 ) sur la question 7
-\item
-  Est-ce que ceux qui avaient leur téléphone ou leur smartphone sur la
-  table l'ont plus utilisé que ceux qui l'avaient dans leur sac, et pour
-  faire quoi ? quelque soit la génération
 \end{itemize}
 
 \section{Résultats selon la
@@ -1015,7 +1005,7 @@ p = propmotion, chiffre = année
 
 Comparaison 1ère année (S1 + S2), 2ème année (S3 + S4), 3ème année (S5 +
 S6) comparaison de la population( HUS1, SV1, C2, B2, et M1) avec (HUS3,
-H1, E1, C1) avec (Sa1, SV2, HUS2 , C3, H2, B1et M2) sur Q4 et Q7.
+H1, E1, C1) avec (Sa1, SV2, HUS2 , C3, H2, B1 et M2) sur Q4 et Q7.
 
 \subsection{Question Q4}\label{question-q4}
 
@@ -1370,7 +1360,7 @@ fiche 61 et 62.
 \subsection{Question Q7}\label{question-q7}
 
 La question 7 comporte 15 sous questions de Q7.1 à Q7.16 (colonnes 33 à
-48). On retire la colonne 13 qui est du texte libre. On ajoutebla
+48). On retire la colonne 13 qui est du texte libre. On ajoute la
 colonne PROMO (promotion) pour l'analyse en sous-groupe.
 
 \begin{verbatim}
@@ -1661,6 +1651,390 @@ p-value = 0.04678
 alternative hypothesis: two.sided
 \end{verbatim}
 
+\section{Accès WIFI}\label{acces-wifi}
+
+Est-ce que le fait d'avoir accès à la WIFI modifie l'usage de
+l'ordinateur ou de la tablette, et en particulier leur usage à des fins
+ne relevant pas de l'apprentissage en lien avec le cours comparaison des
+étudiants ayant répondu ot ou osp à tablette et ordi et appartenant d'un
+côté au group (SV1 sv2 Sa1 M1 M2 E1 B1 et B2) par rapport au groupe (
+HUS1 HUS 2 HUS3 H1 H2 C1 C2C3 ) sur la question 7
+
+\begin{verbatim}
+## Groupe1 Groupe2 
+##     629     817
+\end{verbatim}
+
+La question 7 comporte 15 sous questions de Q7.1 à Q7.16 (colonnes 33 à
+48). On retire la colonne 13 qui est du texte libre. On ajoute la
+colonne PROMO2 (promotion) pour l'analyse en sous-groupe.
+
+\begin{verbatim}
+      Groupe1 Groupe2
+Q7.1       35      28
+Q7.2       32      23
+Q7.3       24      15
+Q7.4       53      17
+Q7.5        3       4
+Q7.6        4       1
+Q7.7       23      19
+Q7.8        2       3
+Q7.9       27      15
+Q7.10      39      52
+Q7.11     138     230
+Q7.12      20      33
+Q7.14      99     135
+Q7.15     280     360
+Q7.16       5       9
+\end{verbatim}
+
+\textbf{REMARQUE}: les lignes pour lesquelles un des effectif est
+inférieur à 5 donnent des résultats douteux au test du chi2.
+
+Pour chacune des 15 sous-questions on compare les réponses de 2 groupes
+par un test du chi2. Si \textbf{p-value} est supérieur à 0.05, alors il
+n'y a pas de différence de comportement entre les promotions pour cette
+sous-question. Dans la cas contraire, au moins une promotion ne se
+comporte pas comme les autres:
+
+\begin{verbatim}
+[1] "Q7.1"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 3.3996, df = 1, p-value = 0.06521
+
+[1] "Q7.2"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 4.4132, df = 1, p-value = 0.03566
+
+[1] "Q7.3"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 4.5793, df = 1, p-value = 0.03236
+
+[1] "Q7.4"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 29.6997, df = 1, p-value = 0.00000005044
+\end{verbatim}
+
+\begin{verbatim}
+Warning in chisq.test(table(q, q7$PROMO)): Chi-squared approximation may be
+incorrect
+\end{verbatim}
+
+\begin{verbatim}
+[1] "Q7.5"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 0, df = 1, p-value = 1
+\end{verbatim}
+
+\begin{verbatim}
+Warning in chisq.test(table(q, q7$PROMO)): Chi-squared approximation may be
+incorrect
+\end{verbatim}
+
+\begin{verbatim}
+[1] "Q7.6"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 1.4337, df = 1, p-value = 0.2312
+
+[1] "Q7.7"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 1.7855, df = 1, p-value = 0.1815
+\end{verbatim}
+
+\begin{verbatim}
+Warning in chisq.test(table(q, q7$PROMO)): Chi-squared approximation may be
+incorrect
+\end{verbatim}
+
+\begin{verbatim}
+[1] "Q7.8"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 0, df = 1, p-value = 1
+
+[1] "Q7.9"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 6.7584, df = 1, p-value = 0.009331
+
+[1] "Q7.10"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 0.0003, df = 1, p-value = 0.9853
+
+[1] "Q7.11"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 6.905, df = 1, p-value = 0.008595
+
+[1] "Q7.12"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 0.5201, df = 1, p-value = 0.4708
+
+[1] "Q7.14"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 0.1086, df = 1, p-value = 0.7417
+
+[1] "Q7.15"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 0.0139, df = 1, p-value = 0.9061
+
+[1] "Q7.16"
+
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  table(q, q7$PROMO)
+X-squared = 0.1021, df = 1, p-value = 0.7493
+\end{verbatim}
+
+Même analyse en utilisant le \textbf{test exact de Fisher} qui donne un
+résultat plus précis que la chi2 en cas d'effectifs faibles:
+
+\begin{verbatim}
+[1] "Q7.1"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.05188
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.3487933 1.0321911
+sample estimates:
+odds ratio 
+ 0.6025082 
+
+[1] "Q7.2"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.02691
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.2987513 0.9644285
+sample estimates:
+odds ratio 
+ 0.5406644 
+
+[1] "Q7.3"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.03198
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.2280039 0.9460479
+sample estimates:
+odds ratio 
+ 0.4717196 
+
+[1] "Q7.4"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.00000003769
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.1241147 0.4106147
+sample estimates:
+odds ratio 
+ 0.2311688 
+
+[1] "Q7.5"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 1
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.1729835 7.0344121
+sample estimates:
+odds ratio 
+  1.026634 
+
+[1] "Q7.6"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.1736
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.003888542 1.943188489
+sample estimates:
+odds ratio 
+ 0.1916576 
+
+[1] "Q7.7"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.1556
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.3199895 1.2169580
+sample estimates:
+odds ratio 
+ 0.6275462 
+
+[1] "Q7.8"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 1
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+  0.1319202 13.8763590
+sample estimates:
+odds ratio 
+  1.155273 
+
+[1] "Q7.9"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.006924
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.2044110 0.8210999
+sample estimates:
+odds ratio 
+ 0.4172633 
+
+[1] "Q7.10"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.9136
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.6559991 1.6232148
+sample estimates:
+odds ratio 
+  1.028306 
+
+[1] "Q7.11"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.007392
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 1.086410 1.792038
+sample estimates:
+odds ratio 
+  1.393768 
+
+[1] "Q7.12"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.4017
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.7058042 2.3818660
+sample estimates:
+odds ratio 
+  1.281479 
+
+[1] "Q7.14"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.719
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.7911582 1.4227132
+sample estimates:
+odds ratio 
+  1.059694 
+
+[1] "Q7.15"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.8728
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.7921136 1.2173051
+sample estimates:
+odds ratio 
+ 0.9818764 
+
+[1] "Q7.16"
+
+    Fisher's Exact Test for Count Data
+
+data:  table(q, q7$PROMO)
+p-value = 0.6011
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 0.4158249 5.3060086
+sample estimates:
+odds ratio 
+   1.38979 
+\end{verbatim}
+
+\begin{center}\rule{3in}{0.4pt}\end{center}
+
+Est-ce que ceux qui avaient leur téléphone ou leur smartphone sur la
+table l'ont plus utilisé que ceux qui l'avaient dans leur sac, et pour
+faire quoi ? quelque soit la génération
+
+Cela revient à croiser Q3 et Q4 qui comportent respectivement 4 et 16
+sous question chacune ayant 2 à plusieurs modalités. Temps de travail 3
+à 4 heures.
+
 \section{Information de session}\label{information-de-session}
 
 Informations pour le chapitre matériel et méthode.
@@ -1678,13 +2052,12 @@ attached base packages:
 
 other attached packages:
 [1] knitr_1.10.5     xtable_1.7-4     stringr_1.0.0    epicalc_2.15.1.0
-[5] nnet_7.3-9       MASS_7.3-40      survival_2.38-1  foreign_0.8-63  
+[5] nnet_7.3-9       MASS_7.3-41      survival_2.38-2  foreign_0.8-63  
 
 loaded via a namespace (and not attached):
- [1] digest_0.6.8      evaluate_0.7      formatR_1.2      
- [4] htmltools_0.2.6   magrittr_1.5      rmarkdown_0.5.3.2
- [7] splines_3.1.3     stringi_0.4-1     tools_3.1.3      
-[10] yaml_2.1.13      
+ [1] digest_0.6.8    evaluate_0.7    formatR_1.2     htmltools_0.2.6
+ [5] magrittr_1.5    rmarkdown_0.7   splines_3.1.3   stringi_0.4-1  
+ [9] tools_3.1.3     yaml_2.1.13    
 \end{verbatim}
 
 \begin{verbatim}
