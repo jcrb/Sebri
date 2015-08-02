@@ -40,3 +40,7 @@ chi2multiple <- function(){
         print(names(q4[i]))
         print(c)}
 }
+
+# Transforme NA en 0
+#' @usage na2zero(NA); na2zero(1)
+na2zero <- function(x){ifelse(is.na(x), 0, x)}
